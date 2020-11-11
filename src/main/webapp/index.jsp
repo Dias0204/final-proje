@@ -5,6 +5,6 @@
     <title>Title</title>
 </head>
 <body>
-
+<a href="jsp/login.jsp">KEKW</a>
 </body>
 </html>

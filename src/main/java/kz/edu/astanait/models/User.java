@@ -2,6 +2,8 @@ package kz.edu.astanait.models;
 
 import kz.edu.astanait.interfaces.IUser;
 
+import java.util.Date;
+
 public class User implements IUser {
     private int id;
     private String fname;
@@ -9,6 +11,9 @@ public class User implements IUser {
     private String email;
     private String password;
     private String role;
+    private Date year;
+    private String major;
+    private String group;
     private int club_id;
     private int event_id;
     private int news_id;
@@ -29,6 +34,9 @@ public class User implements IUser {
         private String email;
         private String password;
         private String role;
+        private Date year;
+        private String major;
+        private String group;
         private int club_id;
         private int event_id;
         private int news_id;
@@ -38,13 +46,16 @@ public class User implements IUser {
             return new User(this);
         }
 
-        public Builder setUser( String fname, String lname, String email, String password, String role)
+        public Builder setUser( String fname, String lname, String email, String password, String role,Date year, String major, String group)
         {
             this.fname = fname;
             this.lname = lname;
             this.email = email;
             this.password = password;
             this.role = role;
+            this.year = year;
+            this.major = major;
+            this.group = group;
             return this;
         }
 
@@ -155,6 +166,36 @@ public class User implements IUser {
     @Override
     public int getNewsId() {
         return news_id;
+    }
+
+    @Override
+    public void setYear(Date year) {
+        this.year = year;
+    }
+
+    @Override
+    public Date getYear() {
+        return year;
+    }
+
+    @Override
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    @Override
+    public String getMajor() {
+        return major;
+    }
+
+    @Override
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    @Override
+    public String getGroup() {
+        return group;
     }
 
     @Override

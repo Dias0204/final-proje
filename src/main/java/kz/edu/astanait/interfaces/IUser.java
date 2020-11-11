@@ -1,5 +1,7 @@
 package kz.edu.astanait.interfaces;
 
+import java.util.Date;
+
 public interface IUser {
     public void setId(int id);
     public int getId();
@@ -27,4 +29,13 @@ public interface IUser {
 
     public void setNewsId(int news_id);
     public int getNewsId();
+
+    public void setYear(Date year);
+    public Date getYear();
+
+    public void setMajor(String major);
+    public String getMajor();
+
+    public void setGroup(String group);
+    public String getGroup();
 }

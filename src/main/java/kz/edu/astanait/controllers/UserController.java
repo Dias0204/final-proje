@@ -35,7 +35,10 @@ public class UserController implements IController<User> {
                         rset.getString("lname"),
                         rset.getString("email"),
                         rset.getString("password"),
-                        rset.getString("role")).
+                        rset.getString("role"),
+                        rset.getDate("year"),
+                        rset.getString("major"),
+                        rset.getString("group")).
                         withId(rset.getInt("user_id")).
                         clubMod(rsetClub.getInt("club_id")).
                         build();
@@ -49,7 +52,10 @@ public class UserController implements IController<User> {
                         rset.getString("lname"),
                         rset.getString("email"),
                         rset.getString("password"),
-                        rset.getString("role")).
+                        rset.getString("role"),
+                        rset.getDate("year"),
+                        rset.getString("major"),
+                        rset.getString("group")).
                         withId(rset.getInt("user_id")).
                         eventMod(rsetEvent.getInt("event_id")).
                         build();
@@ -63,7 +69,10 @@ public class UserController implements IController<User> {
                         rset.getString("lname"),
                         rset.getString("email"),
                         rset.getString("password"),
-                        rset.getString("role")).
+                        rset.getString("role"),
+                        rset.getDate("year"),
+                        rset.getString("major"),
+                        rset.getString("group")).
                         withId(rset.getInt("user_id")).
                         newsMod(rsetNews.getInt("news_id")).
                         build();
@@ -73,7 +82,10 @@ public class UserController implements IController<User> {
                         rset.getString("lname"),
                         rset.getString("email"),
                         rset.getString("password"),
-                        rset.getString("role")).
+                        rset.getString("role"),
+                        rset.getDate("year"),
+                        rset.getString("major"),
+                        rset.getString("group")).
                         withId(rset.getInt("user_id")).
                         build();
             }
