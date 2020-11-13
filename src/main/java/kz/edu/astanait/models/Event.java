@@ -8,12 +8,52 @@ import java.util.List;
 public class Event implements IECN {
     private int id;
     private String name;
-    private User owner;
+    private String owner;
     private List<User> moderators;
     private String description;
     private String img_url;
     private Date created_date;
 
+    public Event(Builder builder){
+        setId(builder.id);
+        setName(builder.name);
+        setOwner(builder.owner);
+        setModerators(builder.moderators);
+        setImg_url(builder.img_url);
+        setDescription(builder.description);
+        setCreated(builder.created_date);
+    }
+
+    public static class Builder{
+        private int id;
+        private String name;
+        private String owner;
+        private List<User> moderators;
+        private String description;
+        private String img_url;
+        private Date created_date;
+
+        public Event build()
+        {
+            return new Event(this);
+        }
+
+        public Builder setEvent(String name, String owner, List<User> moderators, String description, String img_url, Date created_date)
+        {
+            this.name = name;
+            this.owner = owner;
+            this.moderators = moderators;
+            this.description = description;
+            this.img_url = img_url;
+            this.created_date = created_date;
+            return this;
+        }
+
+        public Builder setEvent_id(int book_id) {
+            this.id = id;
+            return this;
+        }
+    }
 
     @Override
     public void setId(int id) {
@@ -36,12 +76,12 @@ public class Event implements IECN {
     }
 
     @Override
-    public void setOwner(User owner) {
+    public void setOwner(String owner) {
         this.owner = owner;
     }
 
     @Override
-    public User getOwner() {
+    public String getOwner() {
         return owner;
     }
 

@@ -12,8 +12,8 @@ public interface IECN {
     public void setName(String name);
     public String getName();
 
-    public void setOwner(User owner);
-    public User getOwner();
+    public void setOwner(String owner);
+    public String getOwner();
 
     public void setModerators(List<User> moderators);
     public List<User> getModerators();
