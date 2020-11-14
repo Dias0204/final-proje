@@ -79,7 +79,7 @@ public class ClubController implements IController<Club> {
         try {
             Statement statement = db.getConnection().createStatement();
             ResultSet rsModers = statement.executeQuery("SELECT user_id,fname,lname,email" +
-                ",password,role,year,major,group_name,cm.club_id from users" +
+                ",password,role,year,major,group, cm.club_id from users" +
                 " join club_moders cm on users.user_id = cm.user_id" +
                 " group by cm.club_id" );
         User moder;
@@ -90,7 +90,7 @@ public class ClubController implements IController<Club> {
                     rsModers.getString("email"),
                     rsModers.getString("password"),
                     rsModers.getString("role"),
-                    rsModers.getDate("year"),
+                    rsModers.getString("year"),
                     rsModers.getString("major"),
                     rsModers.getString("group_name"))
                     .withId(rsModers.getInt("user_id"))
@@ -129,7 +129,7 @@ public class ClubController implements IController<Club> {
             PreparedStatement pstmtClubs = db.getConnection().prepareStatement("SELECT * FROM clubs where club_id = ?");
             pstmtClubs.setInt(1,id);
             PreparedStatement pstmtModers = db.getConnection().prepareStatement("SELECT user_id,fname,lname,email" +
-                    ",password,role,year,major,group_name,cm.club_id from users" +
+                    ",password,role,year,major,group,cm.club_id from users" +
                     " join club_moders cm on users.user_id = cm.user_id" +
                     " where club_id = ?" +
                     " group by cm.club_id" );
@@ -143,7 +143,7 @@ public class ClubController implements IController<Club> {
                         rsModers.getString("email"),
                         rsModers.getString("password"),
                         rsModers.getString("role"),
-                        rsModers.getDate("year"),
+                        rsModers.getString("year"),
                         rsModers.getString("major"),
                         rsModers.getString("group_name"))
                         .withId(rsModers.getInt("user_id"))

@@ -2,8 +2,6 @@ package kz.edu.astanait.controllers;
 
 import kz.edu.astanait.JDBC.DB;
 import kz.edu.astanait.interfaces.IController;
-import kz.edu.astanait.models.Club;
-import kz.edu.astanait.models.Event;
 import kz.edu.astanait.models.News;
 import kz.edu.astanait.models.User;
 
@@ -16,7 +14,7 @@ public class NewsController implements IController<News> {
     @Override
     public void add(News news) {
         String sql = "INSERT INTO clubs(name, owner, description, img_url, created_date)" +
-                "VALUES(?,?,?,?,?,?)";
+                "VALUES(?,?,?,?,?)";
 
         try {
             PreparedStatement stmt = db.getConnection().prepareStatement(sql);
@@ -91,7 +89,7 @@ public class NewsController implements IController<News> {
                         rsModers.getString("email"),
                         rsModers.getString("password"),
                         rsModers.getString("role"),
-                        rsModers.getDate("year"),
+                        rsModers.getString("year"),
                         rsModers.getString("major"),
                         rsModers.getString("group_name"))
                         .withId(rsModers.getInt("user_id"))
@@ -144,7 +142,7 @@ public class NewsController implements IController<News> {
                         rsModers.getString("email"),
                         rsModers.getString("password"),
                         rsModers.getString("role"),
-                        rsModers.getDate("year"),
+                        rsModers.getString("year"),
                         rsModers.getString("major"),
                         rsModers.getString("group_name"))
                         .withId(rsModers.getInt("user_id"))

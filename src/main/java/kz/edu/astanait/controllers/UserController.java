@@ -12,6 +12,21 @@ import java.util.List;
 public class UserController implements IController<User> {
     private static DB db = new DB();
 
+    public boolean checkEmail(String email) throws SQLException {
+        String sql = "SELECT * FROM users WHERE email = ?";
+
+        PreparedStatement stmt = db.getConnection().prepareStatement(sql);
+
+        stmt.setString(1, email);
+        System.out.println("'" + email + "'");
+        ResultSet rset = stmt.executeQuery();
+        if (rset.next()) {
+            System.out.println("hi");
+            return true;
+        }
+        return false;
+    }
+
     public User checkLogin(String email, String password) throws SQLException {
         String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
         PreparedStatement stmt = db.getConnection().prepareStatement(sql);
@@ -35,7 +50,7 @@ public class UserController implements IController<User> {
                         rset.getString("email"),
                         rset.getString("password"),
                         rset.getString("role"),
-                        rset.getDate("year"),
+                        rset.getString("year"),
                         rset.getString("major"),
                         rset.getString("group")).
                         withId(rset.getInt("user_id")).
@@ -52,7 +67,7 @@ public class UserController implements IController<User> {
                         rset.getString("email"),
                         rset.getString("password"),
                         rset.getString("role"),
-                        rset.getDate("year"),
+                        rset.getString("year"),
                         rset.getString("major"),
                         rset.getString("group")).
                         withId(rset.getInt("user_id")).
@@ -69,7 +84,7 @@ public class UserController implements IController<User> {
                         rset.getString("email"),
                         rset.getString("password"),
                         rset.getString("role"),
-                        rset.getDate("year"),
+                        rset.getString("year"),
                         rset.getString("major"),
                         rset.getString("group")).
                         withId(rset.getInt("user_id")).
@@ -82,7 +97,7 @@ public class UserController implements IController<User> {
                         rset.getString("email"),
                         rset.getString("password"),
                         rset.getString("role"),
-                        rset.getDate("year"),
+                        rset.getString("year"),
                         rset.getString("major"),
                         rset.getString("group")).
                         withId(rset.getInt("user_id")).
@@ -94,7 +109,7 @@ public class UserController implements IController<User> {
 
     @Override
     public void add(User user) {
-        String sql = "INSERT INTO users(user_id,fname, lname, email, password, role, year, major, group_name)" +
+        String sql = "INSERT INTO users(user_id,fname, lname, email, password, role, year, major, group)" +
                 "VALUES(?,?,?,?,?,?,?,?,?)";
 
         try {
@@ -105,7 +120,7 @@ public class UserController implements IController<User> {
             stmt.setString(4, user.getEmail());
             stmt.setString(5, user.getPassword());
             stmt.setString(6, user.getRole());
-            stmt.setDate(7, (Date) user.getYear());
+            stmt.setString(7, user.getYear());
             stmt.setString(8, user.getMajor());
             stmt.setString(9, user.getGroup());
 
@@ -118,7 +133,7 @@ public class UserController implements IController<User> {
     @Override
     public void update(User user) {
 
-        String sql = "update users set  fname = ?, lname = ?, email = ?,password = ?, role = ?, year = ?, major = ?, group_name = ?  where user_id = ?";
+        String sql = "update users set  fname = ?, lname = ?, email = ?,password = ?, year = ?, major = ?, group = ?  where user_id = ?";
         PreparedStatement stmt = null;
         try {
 
@@ -128,13 +143,11 @@ public class UserController implements IController<User> {
             stmt.setString(2, user.getLname());
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getPassword());
-            stmt.setString(5, user.getRole());
-            stmt.setDate(6, (Date) user.getYear());
-            stmt.setString(7, user.getMajor());
-            stmt.setString(8, user.getGroup());
-            stmt.setInt(9, user.getId());
+            stmt.setString(5, user.getYear());
+            stmt.setString(6, user.getMajor());
+            stmt.setString(7, user.getGroup());
+            stmt.setInt(8, user.getId());
             stmt.execute();
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -178,7 +191,7 @@ public class UserController implements IController<User> {
                             rset.getString("email"),
                             rset.getString("password"),
                             rset.getString("role"),
-                            rset.getDate("year"),
+                            rset.getString("year"),
                             rset.getString("major"),
                             rset.getString("group")).
                             withId(rset.getInt("user_id")).
@@ -197,7 +210,7 @@ public class UserController implements IController<User> {
                             rset.getString("email"),
                             rset.getString("password"),
                             rset.getString("role"),
-                            rset.getDate("year"),
+                            rset.getString("year"),
                             rset.getString("major"),
                             rset.getString("group")).
                             withId(rset.getInt("user_id")).
@@ -215,7 +228,7 @@ public class UserController implements IController<User> {
                             rset.getString("email"),
                             rset.getString("password"),
                             rset.getString("role"),
-                            rset.getDate("year"),
+                            rset.getString("year"),
                             rset.getString("major"),
                             rset.getString("group")).
                             withId(rset.getInt("user_id")).
@@ -229,7 +242,7 @@ public class UserController implements IController<User> {
                             rset.getString("email"),
                             rset.getString("password"),
                             rset.getString("role"),
-                            rset.getDate("year"),
+                            rset.getString("year"),
                             rset.getString("major"),
                             rset.getString("group")).
                             withId(rset.getInt("user_id")).
@@ -270,7 +283,7 @@ public class UserController implements IController<User> {
                             rset.getString("email"),
                             rset.getString("password"),
                             rset.getString("role"),
-                            rset.getDate("year"),
+                            rset.getString("year"),
                             rset.getString("major"),
                             rset.getString("group")).
                             withId(rset.getInt("user_id")).
@@ -287,7 +300,7 @@ public class UserController implements IController<User> {
                             rset.getString("email"),
                             rset.getString("password"),
                             rset.getString("role"),
-                            rset.getDate("year"),
+                            rset.getString("year"),
                             rset.getString("major"),
                             rset.getString("group")).
                             withId(rset.getInt("user_id")).
@@ -304,7 +317,7 @@ public class UserController implements IController<User> {
                             rset.getString("email"),
                             rset.getString("password"),
                             rset.getString("role"),
-                            rset.getDate("year"),
+                            rset.getString("year"),
                             rset.getString("major"),
                             rset.getString("group")).
                             withId(rset.getInt("user_id")).
@@ -317,7 +330,7 @@ public class UserController implements IController<User> {
                             rset.getString("email"),
                             rset.getString("password"),
                             rset.getString("role"),
-                            rset.getDate("year"),
+                            rset.getString("year"),
                             rset.getString("major"),
                             rset.getString("group")).
                             withId(rset.getInt("user_id")).

@@ -30,8 +30,8 @@ public interface IUser {
     public void setNewsId(int news_id);
     public int getNewsId();
 
-    public void setYear(Date year);
-    public Date getYear();
+    public void setYear(String year);
+    public String getYear();
 
     public void setMajor(String major);
     public String getMajor();

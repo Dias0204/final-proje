@@ -5,9 +5,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-@WebServlet(name = "ServletLogout")
+@WebServlet(name = "ServletLogout", urlPatterns = "/logout")
 public class ServletLogout extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession sessions = request.getSession();
         Cookie[] cookies = request.getCookies();
         for (int a = 0; a < cookies.length; a++) {
@@ -20,9 +23,5 @@ public class ServletLogout extends HttpServlet {
 //        sessions.removeAttribute("user");
 //        sessions.removeAttribute("message");
         response.sendRedirect(getServletContext().getContextPath());
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }

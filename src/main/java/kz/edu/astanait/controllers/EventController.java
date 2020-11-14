@@ -90,7 +90,7 @@ public class EventController implements IController<Event> {
                         rsModers.getString("email"),
                         rsModers.getString("password"),
                         rsModers.getString("role"),
-                        rsModers.getDate("year"),
+                        rsModers.getString("year"),
                         rsModers.getString("major"),
                         rsModers.getString("group_name"))
                         .withId(rsModers.getInt("user_id"))
@@ -143,7 +143,7 @@ public class EventController implements IController<Event> {
                         rsModers.getString("email"),
                         rsModers.getString("password"),
                         rsModers.getString("role"),
-                        rsModers.getDate("year"),
+                        rsModers.getString("year"),
                         rsModers.getString("major"),
                         rsModers.getString("group_name"))
                         .withId(rsModers.getInt("user_id"))

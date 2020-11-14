@@ -11,7 +11,7 @@ public class User implements IUser {
     private String email;
     private String password;
     private String role;
-    private Date year;
+    private String year;
     private String major;
     private String group;
     private int club_id;
@@ -34,7 +34,7 @@ public class User implements IUser {
         private String email;
         private String password;
         private String role;
-        private Date year;
+        private String year;
         private String major;
         private String group;
         private int club_id;
@@ -46,7 +46,7 @@ public class User implements IUser {
             return new User(this);
         }
 
-        public Builder setUser( String fname, String lname, String email, String password, String role,Date year, String major, String group)
+        public Builder setUser(String fname, String lname, String email, String password, String role, String year, String major, String group)
         {
             this.fname = fname;
             this.lname = lname;
@@ -61,18 +61,6 @@ public class User implements IUser {
 
         public Builder withId(int id) {
             this.id = id;
-            return this;
-        }
-        public Builder clubMod(int club_id) {
-            this.club_id = club_id;
-            return this;
-        }
-        public Builder eventMod(int event_id) {
-            this.event_id = event_id;
-            return this;
-        }
-        public Builder newsMod(int news_id) {
-            this.news_id = news_id;
             return this;
         }
     }
@@ -169,12 +157,12 @@ public class User implements IUser {
     }
 
     @Override
-    public void setYear(Date year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
     @Override
-    public Date getYear() {
+    public String getYear() {
         return year;
     }
 
