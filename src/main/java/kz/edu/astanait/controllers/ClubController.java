@@ -3,6 +3,7 @@ package kz.edu.astanait.controllers;
 import kz.edu.astanait.JDBC.DB;
 import kz.edu.astanait.interfaces.IController;
 import kz.edu.astanait.models.Club;
+import kz.edu.astanait.models.Moder;
 import kz.edu.astanait.models.User;
 
 import java.sql.*;
@@ -12,6 +13,7 @@ import java.util.Stack;
 
 public class ClubController implements IController<Club> {
     DB db = new DB();
+
     @Override
     public void add(Club club) {
         String sql = "INSERT INTO clubs(name, owner, description, img_url, created_date)" +
@@ -46,7 +48,7 @@ public class ClubController implements IController<Club> {
             stmt.setString(3, club.getDescription());
             stmt.setString(4, club.getImg_url());
             stmt.setDate(5, (Date) club.getCreated());
-            stmt.setInt(6,club.getId());
+            stmt.setInt(6, club.getId());
 
             stmt.execute();
 
@@ -75,69 +77,69 @@ public class ClubController implements IController<Club> {
     @Override
     public List<Club> getAll() {
         List<Club> clubList = new LinkedList<>();
-        List<User> moderators = new LinkedList<>();
+        List<Moder> moderators = new LinkedList<>();
         try {
             Statement statement = db.getConnection().createStatement();
             ResultSet rsModers = statement.executeQuery("SELECT user_id,fname,lname,email" +
-                ",password,role,year,major,group, cm.club_id from users" +
-                " join club_moders cm on users.user_id = cm.user_id" +
-                " group by cm.club_id" );
-        User moder;
-        while (rsModers.next()) {
-            moder = new User.Builder().setUser(
-                    rsModers.getString("fname"),
-                    rsModers.getString("lname"),
-                    rsModers.getString("email"),
-                    rsModers.getString("password"),
-                    rsModers.getString("role"),
-                    rsModers.getString("year"),
-                    rsModers.getString("major"),
-                    rsModers.getString("group_name"))
-                    .withId(rsModers.getInt("user_id"))
-                    .clubMod(rsModers.getInt("club_id")).build();
-            moderators.add(moder);
-        }
-        ResultSet rs = statement.executeQuery("SELECT * FROM clubs");
-        Club c;
-        while (rs.next()) {
-            c = new Club.Builder().setClub(
-                    rs.getString("name"),
-                    rs.getString("owner"),
-                    moderators,
-                    rs.getString("description"),
-                    rs.getString("img_url"),
-                    rs.getDate("created_date")
-            ).setClub_id( rs.getInt("club_id")).build();
-            clubList.add(c);
-        }
-        rs.close();
-        statement.close();
+                    ",password,role,year,major,group_name, cm.club_id from users" +
+                    " join club_moders cm on users.user_id = cm.user_id" +
+                    " group by cm.club_id");
+            Moder moder;
+            while (rsModers.next()) {
+                moder = new Moder.Builder().setUser(
+                        rsModers.getString("fname"),
+                        rsModers.getString("lname"),
+                        rsModers.getString("email"),
+                        rsModers.getString("password"),
+                        rsModers.getString("role"),
+                        rsModers.getString("year"),
+                        rsModers.getString("major"),
+                        rsModers.getString("group_name"))
+                        .withId(rsModers.getInt("user_id"))
+                        .clubMod(rsModers.getInt("club_id")).build();
+                moderators.add(moder);
+            }
+            ResultSet rs = statement.executeQuery("SELECT * FROM clubs");
+            Club c;
+            while (rs.next()) {
+                c = new Club.Builder().setClub(
+                        rs.getString("name"),
+                        rs.getString("owner"),
+                        moderators,
+                        rs.getString("description"),
+                        rs.getString("img_url"),
+                        rs.getDate("created_date")
+                ).setClub_id(rs.getInt("club_id")).build();
+                clubList.add(c);
+            }
+            rs.close();
+            statement.close();
 
-        return clubList;
+            return clubList;
 
-    } catch (SQLException sqlException) {
-        sqlException.printStackTrace();
-    }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public Club getById(int id) {
 
-        List<User> moderators = new LinkedList<>();
+        List<Moder> moderators = new LinkedList<>();
         try {
             PreparedStatement pstmtClubs = db.getConnection().prepareStatement("SELECT * FROM clubs where club_id = ?");
-            pstmtClubs.setInt(1,id);
+            pstmtClubs.setInt(1, id);
             PreparedStatement pstmtModers = db.getConnection().prepareStatement("SELECT user_id,fname,lname,email" +
                     ",password,role,year,major,group,cm.club_id from users" +
                     " join club_moders cm on users.user_id = cm.user_id" +
                     " where club_id = ?" +
-                    " group by cm.club_id" );
-            pstmtModers.setInt(1,id);
+                    " group by cm.club_id");
+            pstmtModers.setInt(1, id);
             ResultSet rsModers = pstmtClubs.executeQuery();
-            User moder;
+            Moder moder;
             while (rsModers.next()) {
-                moder = new User.Builder().setUser(
+                moder = new Moder.Builder().setUser(
                         rsModers.getString("fname"),
                         rsModers.getString("lname"),
                         rsModers.getString("email"),
@@ -154,11 +156,11 @@ public class ClubController implements IController<Club> {
             Club c = new Club.Builder().setClub(
                     rsClubs.getString("name"),
                     rsClubs.getString("owner"),
-                        moderators,
+                    moderators,
                     rsClubs.getString("description"),
                     rsClubs.getString("img_url"),
                     rsClubs.getDate("created_date")
-                ).setClub_id( rsClubs.getInt("club_id")).build();
+            ).setClub_id(rsClubs.getInt("club_id")).build();
             return c;
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();

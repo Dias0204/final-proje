@@ -336,7 +336,7 @@ public class UserController implements IController<User> {
                             withId(rset.getInt("user_id")).
                             build();
                 }
-        }
+            }
         } catch (SQLException ex) {
             throw new BadRequestException("Cannot run SQL statement: " + ex.getMessage());
         }

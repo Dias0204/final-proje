@@ -63,6 +63,18 @@ public class User implements IUser {
             this.id = id;
             return this;
         }
+        public Builder clubMod(int club_id) {
+            this.club_id = club_id;
+            return this;
+        }
+        public Builder eventMod(int event_id) {
+            this.event_id = event_id;
+            return this;
+        }
+        public Builder newsMod(int news_id) {
+            this.news_id = news_id;
+            return this;
+        }
     }
 
 

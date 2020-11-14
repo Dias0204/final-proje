@@ -9,12 +9,12 @@ public class Club implements IECN {
     private int id;
     private String name;
     private String owner;
-    private List<User> moderators;
+    private List<Moder> moderators;
     private String description;
     private String img_url;
     private Date created_date;
 
-    public Club(Builder builder){
+    public Club(Builder builder) {
         setId(builder.id);
         setName(builder.name);
         setOwner(builder.owner);
@@ -24,22 +24,20 @@ public class Club implements IECN {
         setCreated(builder.created_date);
     }
 
-    public static class Builder{
+    public static class Builder {
         private int id;
         private String name;
         private String owner;
-        private List<User> moderators;
+        private List<Moder> moderators;
         private String description;
         private String img_url;
         private Date created_date;
 
-        public Club build()
-        {
+        public Club build() {
             return new Club(this);
         }
 
-        public Builder setClub(String name, String owner, List<User> moderators, String description,String img_url, Date created_date)
-        {
+        public Builder setClub(String name, String owner, List<Moder> moderators, String description, String img_url, Date created_date) {
             this.name = name;
             this.owner = owner;
             this.moderators = moderators;
@@ -86,12 +84,12 @@ public class Club implements IECN {
     }
 
     @Override
-    public void setModerators(List<User> moderators) {
+    public void setModerators(List<Moder> moderators) {
         this.moderators = moderators;
     }
 
     @Override
-    public List<User> getModerators() {
+    public List<Moder> getModerators() {
         return moderators;
     }
 

@@ -1,5 +1,6 @@
 package kz.edu.astanait.interfaces;
 
+import kz.edu.astanait.models.Moder;
 import kz.edu.astanait.models.User;
 
 import java.util.Date;
@@ -15,8 +16,8 @@ public interface IECN {
     public void setOwner(String owner);
     public String getOwner();
 
-    public void setModerators(List<User> moderators);
-    public List<User> getModerators();
+    public void setModerators(List<Moder> moderators);
+    public List<Moder> getModerators();
 
     public void setDescription(String description);
     public String getDescription();

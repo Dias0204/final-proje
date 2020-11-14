@@ -4,6 +4,7 @@ import kz.edu.astanait.JDBC.DB;
 import kz.edu.astanait.interfaces.IController;
 import kz.edu.astanait.models.Club;
 import kz.edu.astanait.models.Event;
+import kz.edu.astanait.models.Moder;
 import kz.edu.astanait.models.User;
 
 import java.sql.*;
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class EventController implements IController<Event> {
     DB db = new DB();
+
     @Override
     public void add(Event event) {
         String sql = "INSERT INTO clubs(name, owner, description, img_url, created_date)" +
@@ -46,7 +48,7 @@ public class EventController implements IController<Event> {
             stmt.setString(3, event.getDescription());
             stmt.setString(4, event.getImg_url());
             stmt.setDate(5, (Date) event.getCreated());
-            stmt.setInt(6,event.getId());
+            stmt.setInt(6, event.getId());
 
             stmt.execute();
 
@@ -75,16 +77,16 @@ public class EventController implements IController<Event> {
     @Override
     public List<Event> getAll() {
         List<Event> eventList = new LinkedList<>();
-        List<User> moderators = new LinkedList<>();
+        List<Moder> moderators = new LinkedList<>();
         try {
             Statement statement = db.getConnection().createStatement();
             ResultSet rsModers = statement.executeQuery("SELECT user_id,fname,lname,email" +
                     ",password,role,year,major,group_name,em.event_id from users" +
                     " join event_moders em on users.user_id = em.user_id" +
-                    " group by em.event_id" );
-            User moder;
+                    " group by em.event_id");
+            Moder moder;
             while (rsModers.next()) {
-                moder = new User.Builder().setUser(
+                moder = new Moder.Builder().setUser(
                         rsModers.getString("fname"),
                         rsModers.getString("lname"),
                         rsModers.getString("email"),
@@ -107,7 +109,7 @@ public class EventController implements IController<Event> {
                         rs.getString("description"),
                         rs.getString("img_url"),
                         rs.getDate("created_date")
-                ).setEvent_id( rs.getInt("event_id")).build();
+                ).setEvent_id(rs.getInt("event_id")).build();
                 eventList.add(e);
             }
             rs.close();
@@ -124,20 +126,20 @@ public class EventController implements IController<Event> {
     @Override
     public Event getById(int id) {
 
-        List<User> moderators = new LinkedList<>();
+        List<Moder> moderators = new LinkedList<>();
         try {
             PreparedStatement pstmtClubs = db.getConnection().prepareStatement("SELECT * FROM clubs where club_id = ?");
-            pstmtClubs.setInt(1,id);
+            pstmtClubs.setInt(1, id);
             PreparedStatement pstmtModers = db.getConnection().prepareStatement("SELECT user_id,fname,lname,email" +
                     ",password,role,year,major,group_name,em.event_id from users" +
                     " join event_moders em on users.user_id = em.user_id" +
                     " where event_id = ?" +
-                    " group by em.event_id" );
-            pstmtModers.setInt(1,id);
+                    " group by em.event_id");
+            pstmtModers.setInt(1, id);
             ResultSet rsModers = pstmtClubs.executeQuery();
-            User moder;
+            Moder moder;
             while (rsModers.next()) {
-                moder = new User.Builder().setUser(
+                moder = new Moder.Builder().setUser(
                         rsModers.getString("fname"),
                         rsModers.getString("lname"),
                         rsModers.getString("email"),
@@ -158,7 +160,7 @@ public class EventController implements IController<Event> {
                     rsEvent.getString("description"),
                     rsEvent.getString("img_url"),
                     rsEvent.getDate("created_date")
-            ).setEvent_id( rsModers.getInt("club_id")).build();
+            ).setEvent_id(rsModers.getInt("club_id")).build();
             return e;
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();

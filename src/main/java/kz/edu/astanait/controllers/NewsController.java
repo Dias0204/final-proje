@@ -2,6 +2,7 @@ package kz.edu.astanait.controllers;
 
 import kz.edu.astanait.JDBC.DB;
 import kz.edu.astanait.interfaces.IController;
+import kz.edu.astanait.models.Moder;
 import kz.edu.astanait.models.News;
 import kz.edu.astanait.models.User;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 public class NewsController implements IController<News> {
     DB db = new DB();
+
     @Override
     public void add(News news) {
         String sql = "INSERT INTO clubs(name, owner, description, img_url, created_date)" +
@@ -45,7 +47,7 @@ public class NewsController implements IController<News> {
             stmt.setString(3, news.getDescription());
             stmt.setString(4, news.getImg_url());
             stmt.setDate(5, (Date) news.getCreated());
-            stmt.setInt(6,news.getId());
+            stmt.setInt(6, news.getId());
 
             stmt.execute();
 
@@ -74,16 +76,16 @@ public class NewsController implements IController<News> {
     @Override
     public List<News> getAll() {
         List<News> newsList = new LinkedList<>();
-        List<User> moderators = new LinkedList<>();
+        List<Moder> moderators = new LinkedList<>();
         try {
             Statement statement = db.getConnection().createStatement();
             ResultSet rsModers = statement.executeQuery("SELECT user_id,fname,lname,email" +
                     ",password,role,year,major,group_name,nm.news_id from users" +
                     " join news_moders nm on users.user_id = nm.user_id" +
-                    " group by nm.news_id" );
-            User moder;
+                    " group by nm.news_id");
+            Moder moder;
             while (rsModers.next()) {
-                moder = new User.Builder().setUser(
+                moder = new Moder.Builder().setUser(
                         rsModers.getString("fname"),
                         rsModers.getString("lname"),
                         rsModers.getString("email"),
@@ -106,7 +108,7 @@ public class NewsController implements IController<News> {
                         rs.getString("description"),
                         rs.getString("img_url"),
                         rs.getDate("created_date")
-                ).setNews_id( rs.getInt("event_id")).build();
+                ).setNews_id(rs.getInt("event_id")).build();
                 newsList.add(n);
             }
             rs.close();
@@ -123,20 +125,20 @@ public class NewsController implements IController<News> {
     @Override
     public News getById(int id) {
 
-        List<User> moderators = new LinkedList<>();
+        List<Moder> moderators = new LinkedList<>();
         try {
             PreparedStatement pstmtClubs = db.getConnection().prepareStatement("SELECT * FROM news where news_id = ?");
-            pstmtClubs.setInt(1,id);
+            pstmtClubs.setInt(1, id);
             PreparedStatement pstmtModers = db.getConnection().prepareStatement("SELECT user_id,fname,lname,email" +
                     ",password,role,year,major,group_name,nm.news_id from users" +
                     " join news_moders nm on users.user_id = nm.user_id" +
                     " where news_id = ?" +
-                    " group by nm.news_id" );
-            pstmtModers.setInt(1,id);
+                    " group by nm.news_id");
+            pstmtModers.setInt(1, id);
             ResultSet rsModers = pstmtClubs.executeQuery();
-            User moder;
+            Moder moder;
             while (rsModers.next()) {
-                moder = new User.Builder().setUser(
+                moder = new Moder.Builder().setUser(
                         rsModers.getString("fname"),
                         rsModers.getString("lname"),
                         rsModers.getString("email"),
@@ -157,7 +159,7 @@ public class NewsController implements IController<News> {
                     rsNews.getString("description"),
                     rsNews.getString("img_url"),
                     rsNews.getDate("created_date")
-            ).setNews_id( rsModers.getInt("club_id")).build();
+            ).setNews_id(rsModers.getInt("club_id")).build();
             return n;
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();

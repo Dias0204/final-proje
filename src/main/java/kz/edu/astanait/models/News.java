@@ -9,12 +9,12 @@ public class News implements IECN {
     private int id;
     private String name;
     private String owner;
-    private List<User> moderators;
+    private List<Moder> moderators;
     private String description;
     private String img_url;
     private Date created_date;
 
-    public News(Builder builder){
+    public News(Builder builder) {
         setId(builder.id);
         setName(builder.name);
         setOwner(builder.owner);
@@ -24,22 +24,20 @@ public class News implements IECN {
         setCreated(builder.created_date);
     }
 
-    public static class Builder{
+    public static class Builder {
         private int id;
         private String name;
         private String owner;
-        private List<User> moderators;
+        private List<Moder> moderators;
         private String description;
         private String img_url;
         private Date created_date;
 
-        public News build()
-        {
+        public News build() {
             return new News(this);
         }
 
-        public Builder setNews(String name, String owner, List<User> moderators, String description, String img_url, Date created_date)
-        {
+        public Builder setNews(String name, String owner, List<Moder> moderators, String description, String img_url, Date created_date) {
             this.name = name;
             this.owner = owner;
             this.moderators = moderators;
@@ -87,12 +85,12 @@ public class News implements IECN {
     }
 
     @Override
-    public void setModerators(List<User> moderators) {
+    public void setModerators(List<Moder> moderators) {
         this.moderators = moderators;
     }
 
     @Override
-    public List<User> getModerators() {
+    public List<Moder> getModerators() {
         return moderators;
     }
 
