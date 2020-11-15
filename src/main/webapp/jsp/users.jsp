@@ -19,7 +19,7 @@
 
 <div>
     <div class="container">
-        <div style="display: none" class="row" id="errormsg">
+        <div class="row" id="errormsg">
             <table class="table table-sm table-dark">
                 <thead>
                 <tr>
@@ -34,17 +34,8 @@
 
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <th id="user_id"></th>
-                    <td id="fname"></td>
-                    <td id="lname"></td>
-                    <td id="email"></td>
-                    <td id="password"></td>
-                    <td id="group"></td>
-                    <td id="major"></td>
-                    <td id="year"></td>
-                </tr>
+                <tbody id = "result">
+
                 </tbody>
             </table>
         </div>
@@ -96,16 +87,17 @@
                 success: function (data) {
                     if(data[0].length != 0)
                     {
-                        $('#errrr').hide();
-                        $("#user_id").text(data[0].id);
-                        $("#fname").text(data[0].fname);
-                        $("#lname").text( data[0].lname);
-                        $("#email").text(data[0].email);
-                        $("#password").text( data[0].password);
-                        $("#group").text(data[0].group_name);
-                        $("#major").text(data[0].major);
-                        $("#year").text(data[0].year);
-                        $("#errormsg").show();
+                        $.each(data,function (i,val){
+                            var content = '<tr>';
+                            $.each(val,function (k,value){
+                                if (k!= "club_id" && k!= "event_id" && k!= "news_id"){
+                                content+='<td>'+value+'</td>';
+                                }
+                            });
+                            content+='</tr>';
+                            $("#result").append(content);
+                        });
+
                     }
                     else{
                         alert("No result find");
