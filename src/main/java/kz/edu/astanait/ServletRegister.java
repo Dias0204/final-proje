@@ -26,6 +26,9 @@ public class ServletRegister extends HttpServlet {
         String year = request.getParameter("year");
         String major = request.getParameter("major");
         String group = request.getParameter("group");
+        System.out.println(year);
+        System.out.println(major);
+        System.out.println(group);
         User user = new User.Builder().setUser(fname,lname,email,password,"student",year,major,group).build();
         userController.add(user);
         response.sendRedirect(getServletContext().getContextPath());

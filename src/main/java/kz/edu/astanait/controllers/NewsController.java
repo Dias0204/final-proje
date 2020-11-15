@@ -15,8 +15,8 @@ public class NewsController implements IController<News> {
 
     @Override
     public void add(News news) {
-        String sql = "INSERT INTO clubs(name, owner, description, img_url, created_date)" +
-                "VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO clubs(name, owner, description, img_url)" +
+                "VALUES(?,?,?,?)";
 
         try {
             PreparedStatement stmt = db.getConnection().prepareStatement(sql);
@@ -25,7 +25,6 @@ public class NewsController implements IController<News> {
             stmt.setString(2, news.getOwner());
             stmt.setString(3, news.getDescription());
             stmt.setString(4, news.getImg_url());
-            stmt.setDate(5, (Date) news.getCreated());
 
             stmt.execute();
         } catch (SQLException throwable) {
@@ -35,7 +34,7 @@ public class NewsController implements IController<News> {
 
     @Override
     public void update(News news) {
-        String sql = "update clubs set name = ?, owner = ?, description = ?, img_url = ?, created_date = ?" +
+        String sql = "update clubs set name = ?, owner = ?, description = ?, img_url = ? " +
                 " where club_id = ?";
         PreparedStatement stmt = null;
         try {
@@ -46,8 +45,7 @@ public class NewsController implements IController<News> {
             stmt.setString(2, news.getOwner());
             stmt.setString(3, news.getDescription());
             stmt.setString(4, news.getImg_url());
-            stmt.setDate(5, (Date) news.getCreated());
-            stmt.setInt(6, news.getId());
+            stmt.setInt(5, news.getId());
 
             stmt.execute();
 
@@ -79,7 +77,7 @@ public class NewsController implements IController<News> {
         List<Moder> moderators = new LinkedList<>();
         try {
             Statement statement = db.getConnection().createStatement();
-            ResultSet rsModers = statement.executeQuery("SELECT user_id,fname,lname,email" +
+            ResultSet rsModers = statement.executeQuery("SELECT users.user_id,fname,lname,email" +
                     ",password,role,year,major,group_name,nm.news_id from users" +
                     " join news_moders nm on users.user_id = nm.user_id" +
                     " group by nm.news_id");
@@ -106,8 +104,7 @@ public class NewsController implements IController<News> {
                         rs.getString("owner"),
                         moderators,
                         rs.getString("description"),
-                        rs.getString("img_url"),
-                        rs.getDate("created_date")
+                        rs.getString("img_url")
                 ).setNews_id(rs.getInt("event_id")).build();
                 newsList.add(n);
             }
@@ -157,8 +154,7 @@ public class NewsController implements IController<News> {
                     rsNews.getString("owner"),
                     moderators,
                     rsNews.getString("description"),
-                    rsNews.getString("img_url"),
-                    rsNews.getDate("created_date")
+                    rsNews.getString("img_url")
             ).setNews_id(rsModers.getInt("club_id")).build();
             return n;
         } catch (SQLException sqlException) {

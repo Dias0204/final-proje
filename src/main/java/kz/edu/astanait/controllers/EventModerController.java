@@ -31,14 +31,17 @@ public class EventModerController implements IController<Moder> {
     public void add(Moder moder) {
         String sql = "INSERT INTO event_moders(user_id, event_id)" +
                 "VALUES(?,?)";
+        String sql2 = "update users set role = 'event moderator' where user_id = ?";
 
         try {
             PreparedStatement stmt = db.getConnection().prepareStatement(sql);
-
+            PreparedStatement stmt2 = db.getConnection().prepareStatement(sql2);
+            stmt2.setInt(1,moder.getId());
             stmt.setInt(1, moder.getId());
             stmt.setInt(2, moder.getEventId());
 
             stmt.execute();
+            stmt2.execute();
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         }

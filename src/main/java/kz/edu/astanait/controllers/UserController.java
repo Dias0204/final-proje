@@ -12,6 +12,375 @@ import java.util.List;
 public class UserController implements IController<User> {
     private static DB db = new DB();
 
+    public ArrayList<User> getByName(String fname,String lname){
+        String sql = "SELECT * FROM users WHERE fname LIKE ? and lname LIKE ?";
+
+        try {
+            //Statement stmt = db.getConnection().createStatement();
+            PreparedStatement pstmt = db.getConnection().prepareStatement(sql);
+            //ResultSet rs = stmt.executeQuery(sql);
+            pstmt.setString(1, "%" + fname + "%");
+            pstmt.setString(1, "%" + lname + "%");
+            ResultSet rset = pstmt.executeQuery();
+            ArrayList<User> userList = new ArrayList<>();
+            User user = null;
+
+            while (rset.next()) {
+                if (rset.getString("role").equals("club moderator")) {
+                    String sqlClub = "SELECT * FROM club_moders WHERE user_id = ?";
+                    PreparedStatement stmtClub = db.getConnection().prepareStatement(sqlClub);
+                    stmtClub.setInt(1, rset.getInt("user_id"));
+                    ResultSet rsetClub = stmtClub.executeQuery();
+                    if (rsetClub.next()) {
+                        user = new User.Builder().setUser(
+                                rset.getString("fname"),
+                                rset.getString("lname"),
+                                rset.getString("email"),
+                                rset.getString("password"),
+                                rset.getString("role"),
+                                rset.getString("year"),
+                                rset.getString("major"),
+                                rset.getString("group_name")).
+                                withId(rset.getInt("user_id")).
+                                clubMod(rsetClub.getInt("club_id")).
+                                build();
+                    }
+                } else if (rset.getString("role").equals("event moderator")) {
+                    String sqlEvent = "SELECT * FROM event_moders WHERE user_id = ?";
+                    PreparedStatement stmtEvent = db.getConnection().prepareStatement(sqlEvent);
+                    stmtEvent.setInt(1, rset.getInt("user_id"));
+                    ResultSet rsetEvent = stmtEvent.executeQuery();
+                    if (rsetEvent.next()) {
+                        user = new User.Builder().setUser(
+                                rset.getString("fname"),
+                                rset.getString("lname"),
+                                rset.getString("email"),
+                                rset.getString("password"),
+                                rset.getString("role"),
+                                rset.getString("year"),
+                                rset.getString("major"),
+                                rset.getString("group_name")).
+                                withId(rset.getInt("user_id")).
+                                eventMod(rsetEvent.getInt("event_id")).
+                                build();
+                    }
+                } else if (rset.getString("role").equals("news moderator")) {
+                    String sqlNews = "SELECT * FROM news_moders WHERE user_id = ?";
+                    PreparedStatement stmtNews = db.getConnection().prepareStatement(sqlNews);
+                    stmtNews.setInt(1, rset.getInt("user_id"));
+                    ResultSet rsetNews = stmtNews.executeQuery();
+                    if (rsetNews.next()) {
+                        user = new User.Builder().setUser(
+                                rset.getString("fname"),
+                                rset.getString("lname"),
+                                rset.getString("email"),
+                                rset.getString("password"),
+                                rset.getString("role"),
+                                rset.getString("year"),
+                                rset.getString("major"),
+                                rset.getString("group_name")).
+                                withId(rset.getInt("user_id")).
+                                newsMod(rsetNews.getInt("news_id")).
+                                build();
+                    }
+                } else {
+                    user = new User.Builder().setUser(
+                            rset.getString("fname"),
+                            rset.getString("lname"),
+                            rset.getString("email"),
+                            rset.getString("password"),
+                            rset.getString("role"),
+                            rset.getString("year"),
+                            rset.getString("major"),
+                            rset.getString("group_name")).
+                            withId(rset.getInt("user_id")).
+                            build();
+                }
+                userList.add(user);
+            }
+            return userList;
+
+        } catch (SQLException ex) {
+            throw new BadRequestException("Cannot run SQL statement: " + ex.getMessage());
+        }
+    }
+
+    public ArrayList<User> getByGroup(String group){
+        String sql = "SELECT * FROM users WHERE group_name LIKE ?";
+
+        try {
+            //Statement stmt = db.getConnection().createStatement();
+            PreparedStatement pstmt = db.getConnection().prepareStatement(sql);
+            //ResultSet rs = stmt.executeQuery(sql);
+            pstmt.setString(1, "%" + group + "%");
+            ResultSet rset = pstmt.executeQuery();
+            ArrayList<User> userList = new ArrayList<>();
+            User user = null;
+
+            while (rset.next()) {
+                if (rset.getString("role").equals("club moderator")) {
+                    String sqlClub = "SELECT * FROM club_moders WHERE user_id = ?";
+                    PreparedStatement stmtClub = db.getConnection().prepareStatement(sqlClub);
+                    stmtClub.setInt(1, rset.getInt("user_id"));
+                    ResultSet rsetClub = stmtClub.executeQuery();
+                    if (rsetClub.next()) {
+                        user = new User.Builder().setUser(
+                                rset.getString("fname"),
+                                rset.getString("lname"),
+                                rset.getString("email"),
+                                rset.getString("password"),
+                                rset.getString("role"),
+                                rset.getString("year"),
+                                rset.getString("major"),
+                                rset.getString("group_name")).
+                                withId(rset.getInt("user_id")).
+                                clubMod(rsetClub.getInt("club_id")).
+                                build();
+                    }
+                } else if (rset.getString("role").equals("event moderator")) {
+                    String sqlEvent = "SELECT * FROM event_moders WHERE user_id = ?";
+                    PreparedStatement stmtEvent = db.getConnection().prepareStatement(sqlEvent);
+                    stmtEvent.setInt(1, rset.getInt("user_id"));
+                    ResultSet rsetEvent = stmtEvent.executeQuery();
+                    if (rsetEvent.next()) {
+                        user = new User.Builder().setUser(
+                                rset.getString("fname"),
+                                rset.getString("lname"),
+                                rset.getString("email"),
+                                rset.getString("password"),
+                                rset.getString("role"),
+                                rset.getString("year"),
+                                rset.getString("major"),
+                                rset.getString("group_name")).
+                                withId(rset.getInt("user_id")).
+                                eventMod(rsetEvent.getInt("event_id")).
+                                build();
+                    }
+                } else if (rset.getString("role").equals("news moderator")) {
+                    String sqlNews = "SELECT * FROM news_moders WHERE user_id = ?";
+                    PreparedStatement stmtNews = db.getConnection().prepareStatement(sqlNews);
+                    stmtNews.setInt(1, rset.getInt("user_id"));
+                    ResultSet rsetNews = stmtNews.executeQuery();
+                    if (rsetNews.next()){
+                    user = new User.Builder().setUser(
+                            rset.getString("fname"),
+                            rset.getString("lname"),
+                            rset.getString("email"),
+                            rset.getString("password"),
+                            rset.getString("role"),
+                            rset.getString("year"),
+                            rset.getString("major"),
+                            rset.getString("group_name")).
+                            withId(rset.getInt("user_id")).
+                            newsMod(rsetNews.getInt("news_id")).
+                            build();
+                    }
+                } else {
+                    user = new User.Builder().setUser(
+                            rset.getString("fname"),
+                            rset.getString("lname"),
+                            rset.getString("email"),
+                            rset.getString("password"),
+                            rset.getString("role"),
+                            rset.getString("year"),
+                            rset.getString("major"),
+                            rset.getString("group_name")).
+                            withId(rset.getInt("user_id")).
+                            build();
+                }
+                userList.add(user);
+            }
+            return userList;
+
+        } catch (SQLException ex) {
+            throw new BadRequestException("Cannot run SQL statement: " + ex.getMessage());
+        }
+    }
+
+    public ArrayList<User> getByYear(int year){
+        String sql = "SELECT * FROM users WHERE year = ?";
+
+        try {
+            //Statement stmt = db.getConnection().createStatement();
+            PreparedStatement pstmt = db.getConnection().prepareStatement(sql);
+            //ResultSet rs = stmt.executeQuery(sql);
+            pstmt.setInt(1,year);
+            ResultSet rset = pstmt.executeQuery();
+            ArrayList<User> userList = new ArrayList<>();
+            User user = null;
+
+            while (rset.next()) {
+                if (rset.getString("role").equals("club moderator")) {
+                    String sqlClub = "SELECT * FROM club_moders WHERE user_id = ?";
+                    PreparedStatement stmtClub = db.getConnection().prepareStatement(sqlClub);
+                    stmtClub.setInt(1, rset.getInt("user_id"));
+                    ResultSet rsetClub = stmtClub.executeQuery();
+                    if (rsetClub.next()){
+                    user = new User.Builder().setUser(
+                            rset.getString("fname"),
+                            rset.getString("lname"),
+                            rset.getString("email"),
+                            rset.getString("password"),
+                            rset.getString("role"),
+                            rset.getString("year"),
+                            rset.getString("major"),
+                            rset.getString("group_name")).
+                            withId(rset.getInt("user_id")).
+                            clubMod(rsetClub.getInt("club_id")).
+                            build();
+                    }
+                } else if (rset.getString("role").equals("event moderator")) {
+                    String sqlEvent = "SELECT * FROM event_moders WHERE user_id = ?";
+                    PreparedStatement stmtEvent = db.getConnection().prepareStatement(sqlEvent);
+                    stmtEvent.setInt(1, rset.getInt("user_id"));
+                    ResultSet rsetEvent = stmtEvent.executeQuery();
+                    if (rsetEvent.next()){
+                    user = new User.Builder().setUser(
+                            rset.getString("fname"),
+                            rset.getString("lname"),
+                            rset.getString("email"),
+                            rset.getString("password"),
+                            rset.getString("role"),
+                            rset.getString("year"),
+                            rset.getString("major"),
+                            rset.getString("group_name")).
+                            withId(rset.getInt("user_id")).
+                            eventMod(rsetEvent.getInt("event_id")).
+                            build();
+                    }
+                } else if (rset.getString("role").equals("news moderator")) {
+                    String sqlNews = "SELECT * FROM news_moders WHERE user_id = ?";
+                    PreparedStatement stmtNews = db.getConnection().prepareStatement(sqlNews);
+                    stmtNews.setInt(1, rset.getInt("user_id"));
+                    ResultSet rsetNews = stmtNews.executeQuery();
+                    if (rsetNews.next()) {
+                        user = new User.Builder().setUser(
+                                rset.getString("fname"),
+                                rset.getString("lname"),
+                                rset.getString("email"),
+                                rset.getString("password"),
+                                rset.getString("role"),
+                                rset.getString("year"),
+                                rset.getString("major"),
+                                rset.getString("group_name")).
+                                withId(rset.getInt("user_id")).
+                                newsMod(rsetNews.getInt("news_id")).
+                                build();
+                    }
+                } else {
+                    user = new User.Builder().setUser(
+                            rset.getString("fname"),
+                            rset.getString("lname"),
+                            rset.getString("email"),
+                            rset.getString("password"),
+                            rset.getString("role"),
+                            rset.getString("year"),
+                            rset.getString("major"),
+                            rset.getString("group_name")).
+                            withId(rset.getInt("user_id")).
+                            build();
+                }
+                userList.add(user);
+            }
+            return userList;
+
+        } catch (SQLException ex) {
+            throw new BadRequestException("Cannot run SQL statement: " + ex.getMessage());
+        }
+    }
+
+    public ArrayList<User> getByMajor(String major){
+        String sql = "SELECT * FROM users WHERE major LIKE ?";
+
+        try {
+            //Statement stmt = db.getConnection().createStatement();
+            PreparedStatement pstmt = db.getConnection().prepareStatement(sql);
+            //ResultSet rs = stmt.executeQuery(sql);
+            pstmt.setString(1, "%" + major + "%");
+            ResultSet rset = pstmt.executeQuery();
+            ArrayList<User> userList = new ArrayList<>();
+            User user = null;
+
+            while (rset.next()) {
+                if (rset.getString("role").equals("club moderator")) {
+                    String sqlClub = "SELECT * FROM club_moders WHERE user_id = ?";
+                    PreparedStatement stmtClub = db.getConnection().prepareStatement(sqlClub);
+                    stmtClub.setInt(1, rset.getInt("user_id"));
+                    ResultSet rsetClub = stmtClub.executeQuery();
+                    if (rsetClub.next()){
+                    user = new User.Builder().setUser(
+                            rset.getString("fname"),
+                            rset.getString("lname"),
+                            rset.getString("email"),
+                            rset.getString("password"),
+                            rset.getString("role"),
+                            rset.getString("year"),
+                            rset.getString("major"),
+                            rset.getString("group_name")).
+                            withId(rset.getInt("user_id")).
+                            clubMod(rsetClub.getInt("club_id")).
+                            build();
+                    }
+                } else if (rset.getString("role").equals("event moderator")) {
+                    String sqlEvent = "SELECT * FROM event_moders WHERE user_id = ?";
+                    PreparedStatement stmtEvent = db.getConnection().prepareStatement(sqlEvent);
+                    stmtEvent.setInt(1, rset.getInt("user_id"));
+                    ResultSet rsetEvent = stmtEvent.executeQuery();
+                    if (rsetEvent.next()) {
+                        user = new User.Builder().setUser(
+                                rset.getString("fname"),
+                                rset.getString("lname"),
+                                rset.getString("email"),
+                                rset.getString("password"),
+                                rset.getString("role"),
+                                rset.getString("year"),
+                                rset.getString("major"),
+                                rset.getString("group_name")).
+                                withId(rset.getInt("user_id")).
+                                eventMod(rsetEvent.getInt("event_id")).
+                                build();
+                    }
+                } else if (rset.getString("role").equals("news moderator")) {
+                    String sqlNews = "SELECT * FROM news_moders WHERE user_id = ?";
+                    PreparedStatement stmtNews = db.getConnection().prepareStatement(sqlNews);
+                    stmtNews.setInt(1, rset.getInt("user_id"));
+                    ResultSet rsetNews = stmtNews.executeQuery();
+                    if (rsetNews.next()){
+                    user = new User.Builder().setUser(
+                            rset.getString("fname"),
+                            rset.getString("lname"),
+                            rset.getString("email"),
+                            rset.getString("password"),
+                            rset.getString("role"),
+                            rset.getString("year"),
+                            rset.getString("major"),
+                            rset.getString("group_name")).
+                            withId(rset.getInt("user_id")).
+                            newsMod(rsetNews.getInt("news_id")).
+                            build();
+                    }
+                } else {
+                    user = new User.Builder().setUser(
+                            rset.getString("fname"),
+                            rset.getString("lname"),
+                            rset.getString("email"),
+                            rset.getString("password"),
+                            rset.getString("role"),
+                            rset.getString("year"),
+                            rset.getString("major"),
+                            rset.getString("group_name")).
+                            withId(rset.getInt("user_id")).
+                            build();
+                }
+                userList.add(user);
+            }
+            return userList;
+
+        } catch (SQLException ex) {
+            throw new BadRequestException("Cannot run SQL statement: " + ex.getMessage());
+        }
+    }
+
     public boolean checkEmail(String email) throws SQLException {
         String sql = "SELECT * FROM users WHERE email = ?";
 
@@ -44,6 +413,7 @@ public class UserController implements IController<User> {
                 PreparedStatement stmtClub = db.getConnection().prepareStatement(sqlClub);
                 stmtClub.setInt(1, rset.getInt("user_id"));
                 ResultSet rsetClub = stmtClub.executeQuery();
+                if (rsetClub.next()){
                 user = new User.Builder().setUser(
                         rset.getString("fname"),
                         rset.getString("lname"),
@@ -52,15 +422,17 @@ public class UserController implements IController<User> {
                         rset.getString("role"),
                         rset.getString("year"),
                         rset.getString("major"),
-                        rset.getString("group")).
+                        rset.getString("group_name")).
                         withId(rset.getInt("user_id")).
                         clubMod(rsetClub.getInt("club_id")).
                         build();
+                }
             } else if (rset.getString("role").equals("event moderator")) {
                 String sqlEvent = "SELECT * FROM event_moders WHERE user_id = ?";
                 PreparedStatement stmtEvent = db.getConnection().prepareStatement(sqlEvent);
                 stmtEvent.setInt(1, rset.getInt("user_id"));
                 ResultSet rsetEvent = stmtEvent.executeQuery();
+                if (rsetEvent.next()){
                 user = new User.Builder().setUser(
                         rset.getString("fname"),
                         rset.getString("lname"),
@@ -69,15 +441,17 @@ public class UserController implements IController<User> {
                         rset.getString("role"),
                         rset.getString("year"),
                         rset.getString("major"),
-                        rset.getString("group")).
+                        rset.getString("group_name")).
                         withId(rset.getInt("user_id")).
                         eventMod(rsetEvent.getInt("event_id")).
                         build();
+                }
             } else if (rset.getString("role").equals("news moderator")) {
                 String sqlNews = "SELECT * FROM news_moders WHERE user_id = ?";
                 PreparedStatement stmtNews = db.getConnection().prepareStatement(sqlNews);
                 stmtNews.setInt(1, rset.getInt("user_id"));
                 ResultSet rsetNews = stmtNews.executeQuery();
+                if (rsetNews.next()){
                 user = new User.Builder().setUser(
                         rset.getString("fname"),
                         rset.getString("lname"),
@@ -86,10 +460,11 @@ public class UserController implements IController<User> {
                         rset.getString("role"),
                         rset.getString("year"),
                         rset.getString("major"),
-                        rset.getString("group")).
+                        rset.getString("group_name")).
                         withId(rset.getInt("user_id")).
                         newsMod(rsetNews.getInt("news_id")).
                         build();
+                }
             } else {
                 user = new User.Builder().setUser(
                         rset.getString("fname"),
@@ -99,7 +474,7 @@ public class UserController implements IController<User> {
                         rset.getString("role"),
                         rset.getString("year"),
                         rset.getString("major"),
-                        rset.getString("group")).
+                        rset.getString("group_name")).
                         withId(rset.getInt("user_id")).
                         build();
             }
@@ -109,20 +484,19 @@ public class UserController implements IController<User> {
 
     @Override
     public void add(User user) {
-        String sql = "INSERT INTO users(user_id,fname, lname, email, password, role, year, major, group)" +
-                "VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO users(fname, lname, email, password, role, year, major, group_name)" +
+                "VALUES(?,?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement stmt = db.getConnection().prepareStatement(sql);
-            stmt.setInt(1, user.getId());
-            stmt.setString(2, user.getFname());
-            stmt.setString(3, user.getLname());
-            stmt.setString(4, user.getEmail());
-            stmt.setString(5, user.getPassword());
-            stmt.setString(6, user.getRole());
-            stmt.setString(7, user.getYear());
-            stmt.setString(8, user.getMajor());
-            stmt.setString(9, user.getGroup());
+            stmt.setString(1, user.getFname());
+            stmt.setString(2, user.getLname());
+            stmt.setString(3, user.getEmail());
+            stmt.setString(4, user.getPassword());
+            stmt.setString(5, user.getRole());
+            stmt.setInt(6, Integer.parseInt(user.getYear()));
+            stmt.setString(7, user.getMajor());
+            stmt.setString(8, user.getGroup());
 
             stmt.execute();
         } catch (SQLException throwable) {
@@ -133,7 +507,7 @@ public class UserController implements IController<User> {
     @Override
     public void update(User user) {
 
-        String sql = "update users set  fname = ?, lname = ?, email = ?,password = ?, year = ?, major = ?, group = ?  where user_id = ?";
+        String sql = "update users set  fname = ?, lname = ?, email = ?,password = ?, year = ?, major = ?, group_name = ?  where user_id = ?";
         PreparedStatement stmt = null;
         try {
 
@@ -175,7 +549,7 @@ public class UserController implements IController<User> {
         ArrayList<User> userList = new ArrayList();
         try {
             Statement statement = db.getConnection().createStatement();
-            ResultSet rset = statement.executeQuery("SELECT * FROM users where user_id<>1");
+            ResultSet rset = statement.executeQuery("SELECT * FROM users");
             ResultSetMetaData metaData = rset.getMetaData();
             int numberOfColumns = metaData.getColumnCount();
             User u;
@@ -185,6 +559,7 @@ public class UserController implements IController<User> {
                     PreparedStatement stmtClub = db.getConnection().prepareStatement(sqlClub);
                     stmtClub.setInt(1, rset.getInt("user_id"));
                     ResultSet rsetClub = stmtClub.executeQuery();
+                    if (rsetClub.next()){
                     u = new User.Builder().setUser(
                             rset.getString("fname"),
                             rset.getString("lname"),
@@ -193,35 +568,39 @@ public class UserController implements IController<User> {
                             rset.getString("role"),
                             rset.getString("year"),
                             rset.getString("major"),
-                            rset.getString("group")).
+                            rset.getString("group_name")).
                             withId(rset.getInt("user_id")).
                             clubMod(rsetClub.getInt("club_id")).
                             build();
-                    userList.add(u);
+                        userList.add(u);
+                    }
 
                 } else if (rset.getString("role").equals("event moderator")) {
                     String sqlEvent = "SELECT * FROM event_moders WHERE user_id = ?";
                     PreparedStatement stmtEvent = db.getConnection().prepareStatement(sqlEvent);
                     stmtEvent.setInt(1, rset.getInt("user_id"));
                     ResultSet rsetEvent = stmtEvent.executeQuery();
-                    u = new User.Builder().setUser(
-                            rset.getString("fname"),
-                            rset.getString("lname"),
-                            rset.getString("email"),
-                            rset.getString("password"),
-                            rset.getString("role"),
-                            rset.getString("year"),
-                            rset.getString("major"),
-                            rset.getString("group")).
-                            withId(rset.getInt("user_id")).
-                            eventMod(rsetEvent.getInt("event_id")).
-                            build();
-                    userList.add(u);
+                    if (rsetEvent.next()) {
+                        u = new User.Builder().setUser(
+                                rset.getString("fname"),
+                                rset.getString("lname"),
+                                rset.getString("email"),
+                                rset.getString("password"),
+                                rset.getString("role"),
+                                rset.getString("year"),
+                                rset.getString("major"),
+                                rset.getString("group_name")).
+                                withId(rset.getInt("user_id")).
+                                eventMod(rsetEvent.getInt("event_id")).
+                                build();
+                        userList.add(u);
+                    }
                 } else if (rset.getString("role").equals("news moderator")) {
                     String sqlNews = "SELECT * FROM news_moders WHERE user_id = ?";
                     PreparedStatement stmtNews = db.getConnection().prepareStatement(sqlNews);
                     stmtNews.setInt(1, rset.getInt("user_id"));
                     ResultSet rsetNews = stmtNews.executeQuery();
+                    if (rsetNews.next()){
                     u = new User.Builder().setUser(
                             rset.getString("fname"),
                             rset.getString("lname"),
@@ -230,11 +609,12 @@ public class UserController implements IController<User> {
                             rset.getString("role"),
                             rset.getString("year"),
                             rset.getString("major"),
-                            rset.getString("group")).
+                            rset.getString("group_name")).
                             withId(rset.getInt("user_id")).
                             newsMod(rsetNews.getInt("news_id")).
                             build();
                     userList.add(u);
+                    }
                 } else {
                     u = new User.Builder().setUser(
                             rset.getString("fname"),
@@ -244,7 +624,7 @@ public class UserController implements IController<User> {
                             rset.getString("role"),
                             rset.getString("year"),
                             rset.getString("major"),
-                            rset.getString("group")).
+                            rset.getString("group_name")).
                             withId(rset.getInt("user_id")).
                             build();
                     userList.add(u);
@@ -253,7 +633,7 @@ public class UserController implements IController<User> {
             }
             rset.close();
             statement.close();
-
+            System.out.println(userList);
             return userList;
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -277,23 +657,26 @@ public class UserController implements IController<User> {
                     PreparedStatement stmtClub = db.getConnection().prepareStatement(sqlClub);
                     stmtClub.setInt(1, rset.getInt("user_id"));
                     ResultSet rsetClub = stmtClub.executeQuery();
-                    u = new User.Builder().setUser(
-                            rset.getString("fname"),
-                            rset.getString("lname"),
-                            rset.getString("email"),
-                            rset.getString("password"),
-                            rset.getString("role"),
-                            rset.getString("year"),
-                            rset.getString("major"),
-                            rset.getString("group")).
-                            withId(rset.getInt("user_id")).
-                            clubMod(rsetClub.getInt("club_id")).
-                            build();
+                    if (rsetClub.next()) {
+                        u = new User.Builder().setUser(
+                                rset.getString("fname"),
+                                rset.getString("lname"),
+                                rset.getString("email"),
+                                rset.getString("password"),
+                                rset.getString("role"),
+                                rset.getString("year"),
+                                rset.getString("major"),
+                                rset.getString("group")).
+                                withId(rset.getInt("user_id")).
+                                clubMod(rsetClub.getInt("club_id")).
+                                build();
+                    }
                 } else if (rset.getString("role").equals("event moderator")) {
                     String sqlEvent = "SELECT * FROM event_moders WHERE user_id = ?";
                     PreparedStatement stmtEvent = db.getConnection().prepareStatement(sqlEvent);
                     stmtEvent.setInt(1, rset.getInt("user_id"));
                     ResultSet rsetEvent = stmtEvent.executeQuery();
+                    if (rsetEvent.next()){
                     u = new User.Builder().setUser(
                             rset.getString("fname"),
                             rset.getString("lname"),
@@ -306,23 +689,26 @@ public class UserController implements IController<User> {
                             withId(rset.getInt("user_id")).
                             eventMod(rsetEvent.getInt("event_id")).
                             build();
+                    }
                 } else if (rset.getString("role").equals("news moderator")) {
                     String sqlNews = "SELECT * FROM news_moders WHERE user_id = ?";
                     PreparedStatement stmtNews = db.getConnection().prepareStatement(sqlNews);
                     stmtNews.setInt(1, rset.getInt("user_id"));
                     ResultSet rsetNews = stmtNews.executeQuery();
-                    u = new User.Builder().setUser(
-                            rset.getString("fname"),
-                            rset.getString("lname"),
-                            rset.getString("email"),
-                            rset.getString("password"),
-                            rset.getString("role"),
-                            rset.getString("year"),
-                            rset.getString("major"),
-                            rset.getString("group")).
-                            withId(rset.getInt("user_id")).
-                            newsMod(rsetNews.getInt("news_id")).
-                            build();
+                    if (rsetNews.next()) {
+                        u = new User.Builder().setUser(
+                                rset.getString("fname"),
+                                rset.getString("lname"),
+                                rset.getString("email"),
+                                rset.getString("password"),
+                                rset.getString("role"),
+                                rset.getString("year"),
+                                rset.getString("major"),
+                                rset.getString("group")).
+                                withId(rset.getInt("user_id")).
+                                newsMod(rsetNews.getInt("news_id")).
+                                build();
+                    }
                 } else {
                     u = new User.Builder().setUser(
                             rset.getString("fname"),

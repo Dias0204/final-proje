@@ -1,28 +1,17 @@
-<jsp:include page="../jsp-components/footer.jsp"></jsp:include>
+<jsp:include page="../jsp-components/header.jsp"></jsp:include>
 <form action="${pageContext.request.contextPath }/clubServlet" method="get" style="margin-bottom: 200px">
     <div class="login-box">
         <div class="input-section">
-            <p id="checkemail"></p>
-            <input class="input-area" type="email" id="emailInput" placeholder="email" name="email">
+            <input class="input-area" type="text" placeholder="name" name="name">
         </div>
         <div class="input-section">
-            <input class="input-area" type="password" placeholder="Password" name="pass">
+            <input class="input-area" type="password" placeholder="owner" name="owner">
         </div>
         <div class="input-section">
-            <input class="input-area" type="text" placeholder="first name" name="fname">
+            <input class="input-area" type="text" placeholder="description" name="description">
         </div>
         <div class="input-section">
-            <input class="input-area" type="text" placeholder="last name" name="lname">
-        </div>
-        <div class="input-section">
-            <p id="checkyear"></p>
-            <input class="input-area" id="yearInput" type="text" placeholder="year" name="year">
-        </div>
-        <div class="input-section">
-            <input class="input-area" type="text" placeholder="major" name="major">
-        </div>
-        <div class="input-section">
-            <input class="input-area" type="text" placeholder="group" name="group">
+            <input class="input-area" type="text" placeholder="img_url" name="img_url">
         </div>
         <button class="btn" id="regbtn" type="submit" name="action" value="add">add</button>
     </div>

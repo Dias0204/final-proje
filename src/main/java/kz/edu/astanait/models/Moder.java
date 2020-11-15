@@ -3,6 +3,18 @@ package kz.edu.astanait.models;
 public class Moder extends User {
     public Moder(Builder builder) {
         super(builder);
+        setId(builder.id);
+        setEmail(builder.email);
+        setPassword(builder.password);
+        setFname(builder.fname);
+        setLname(builder.lname);
+        setRole(builder.role);
+        setYear(builder.year);
+        setMajor(builder.major);
+        setGroup(builder.group);
+        setClubId(builder.club_id);
+        setEventId(builder.event_id);
+        setNewsId(builder.news_id);
     }
     public static class Builder extends User.Builder {
         private int id;

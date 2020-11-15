@@ -4,7 +4,6 @@ import kz.edu.astanait.controllers.ClubController;
 import kz.edu.astanait.controllers.ClubModerController;
 import kz.edu.astanait.models.Club;
 import kz.edu.astanait.models.Moder;
-import kz.edu.astanait.models.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,37 +31,27 @@ public class ServletClub extends HttpServlet {
             LinkedList<Club> clubsList  = (LinkedList<Club>) clubController.getAll();
             HttpSession clubSession = request.getSession();
             clubSession.setAttribute("clubs",clubsList);
-            request.getRequestDispatcher("jsp/clubs.jsp").forward(request,response);
+            request.getRequestDispatcher("jsp/club/clubs.jsp").forward(request,response);
         }else if (action.equals("add")){
             String name = request.getParameter("name");
             String owner = request.getParameter("owner");
             String description = request.getParameter("description");
             String img_url = request.getParameter("img_url");
-            Date created_date = null;
-            try {
-                created_date = new SimpleDateFormat("dd/mm/yyyy").parse(request.getParameter("created_date"));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
             List<Moder> moders =null;
-            Club club = new Club.Builder().setClub(name,owner,moders,description,img_url,created_date).build();
+            Club club = new Club.Builder().setClub(name,owner,moders,description,img_url).build();
             clubController.add(club);
             request.getRequestDispatcher("index.jsp").forward(request,response);
         }else if (action.equals("edit")){
             int club_id = Integer.parseInt(request.getParameter("club_id"));
+            System.out.println(request.getParameter("club_id"));
             String name = request.getParameter("name");
             String owner = request.getParameter("owner");
             String description = request.getParameter("description");
             String img_url = request.getParameter("img_url");
-            Date created_date = null;
-            try {
-                created_date = new SimpleDateFormat("dd/mm/yyyy").parse(request.getParameter("created_date"));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
             List<Moder> moders =null;
-            Club club = new Club.Builder().setClub(name,owner,moders,description,img_url,created_date).setClub_id(club_id).build();
+            Club club = new Club.Builder().setClub(name,owner,moders,description,img_url).setClub_id(club_id).build();
             clubController.update(club);
+            System.out.println(club.getId()+club.getName()+club.getOwner());
             request.getRequestDispatcher("index.jsp").forward(request,response);
         }else if (action.equals("delete")){
             ClubModerController clubModerController = new ClubModerController();

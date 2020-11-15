@@ -16,8 +16,8 @@ public class ClubController implements IController<Club> {
 
     @Override
     public void add(Club club) {
-        String sql = "INSERT INTO clubs(name, owner, description, img_url, created_date)" +
-                "VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO clubs(name, owner, description, img_url)" +
+                "VALUES(?,?,?,?)";
 
         try {
             PreparedStatement stmt = db.getConnection().prepareStatement(sql);
@@ -26,7 +26,6 @@ public class ClubController implements IController<Club> {
             stmt.setString(2, club.getOwner());
             stmt.setString(3, club.getDescription());
             stmt.setString(4, club.getImg_url());
-            stmt.setDate(5, (Date) club.getCreated());
 
             stmt.execute();
         } catch (SQLException throwable) {
@@ -36,7 +35,7 @@ public class ClubController implements IController<Club> {
 
     @Override
     public void update(Club club) {
-        String sql = "update clubs set name = ?, owner = ?, description = ?, img_url = ?, created_date = ?" +
+        String sql = "update clubs set name = ?, owner = ?, description = ?, img_url = ?" +
                 " where club_id = ?";
         PreparedStatement stmt = null;
         try {
@@ -47,8 +46,7 @@ public class ClubController implements IController<Club> {
             stmt.setString(2, club.getOwner());
             stmt.setString(3, club.getDescription());
             stmt.setString(4, club.getImg_url());
-            stmt.setDate(5, (Date) club.getCreated());
-            stmt.setInt(6, club.getId());
+            stmt.setInt(5, club.getId());
 
             stmt.execute();
 
@@ -80,7 +78,7 @@ public class ClubController implements IController<Club> {
         List<Moder> moderators = new LinkedList<>();
         try {
             Statement statement = db.getConnection().createStatement();
-            ResultSet rsModers = statement.executeQuery("SELECT user_id,fname,lname,email" +
+            ResultSet rsModers = statement.executeQuery("SELECT users.user_id,fname,lname,email" +
                     ",password,role,year,major,group_name, cm.club_id from users" +
                     " join club_moders cm on users.user_id = cm.user_id" +
                     " group by cm.club_id");
@@ -107,8 +105,7 @@ public class ClubController implements IController<Club> {
                         rs.getString("owner"),
                         moderators,
                         rs.getString("description"),
-                        rs.getString("img_url"),
-                        rs.getDate("created_date")
+                        rs.getString("img_url")
                 ).setClub_id(rs.getInt("club_id")).build();
                 clubList.add(c);
             }
@@ -131,7 +128,7 @@ public class ClubController implements IController<Club> {
             PreparedStatement pstmtClubs = db.getConnection().prepareStatement("SELECT * FROM clubs where club_id = ?");
             pstmtClubs.setInt(1, id);
             PreparedStatement pstmtModers = db.getConnection().prepareStatement("SELECT user_id,fname,lname,email" +
-                    ",password,role,year,major,group,cm.club_id from users" +
+                    ",password,role,year,major,group_name,cm.club_id from users" +
                     " join club_moders cm on users.user_id = cm.user_id" +
                     " where club_id = ?" +
                     " group by cm.club_id");
@@ -158,9 +155,7 @@ public class ClubController implements IController<Club> {
                     rsClubs.getString("owner"),
                     moderators,
                     rsClubs.getString("description"),
-                    rsClubs.getString("img_url"),
-                    rsClubs.getDate("created_date")
-            ).setClub_id(rsClubs.getInt("club_id")).build();
+                    rsClubs.getString("img_url")).setClub_id(rsClubs.getInt("club_id")).build();
             return c;
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();

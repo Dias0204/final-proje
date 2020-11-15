@@ -32,14 +32,16 @@ public class ClubModerController implements IController<Moder>{
     public void add(Moder moder) {
         String sql = "INSERT INTO club_moders(user_id, club_id)" +
                 "VALUES(?,?)";
-
+        String sql2 = "update users set role = 'club moderator' where user_id = ?";
         try {
             PreparedStatement stmt = db.getConnection().prepareStatement(sql);
-
+            PreparedStatement stmt2 = db.getConnection().prepareStatement(sql2);
+            stmt2.setInt(1,moder.getId());
             stmt.setInt(1, moder.getId());
             stmt.setInt(2, moder.getClubId());
 
             stmt.execute();
+            stmt2.execute();
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         }

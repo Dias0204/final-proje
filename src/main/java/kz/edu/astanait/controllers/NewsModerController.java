@@ -32,14 +32,17 @@ public class NewsModerController implements IController<Moder> {
     public void add(Moder moder) {
         String sql = "INSERT INTO news_moders(user_id, news_id)" +
                 "VALUES(?,?)";
+        String sql2 = "update users set role = 'news moderator' where user_id = ?";
 
         try {
             PreparedStatement stmt = db.getConnection().prepareStatement(sql);
-
+            PreparedStatement stmt2 = db.getConnection().prepareStatement(sql2);
+            stmt2.setInt(1,moder.getId());
             stmt.setInt(1, moder.getId());
             stmt.setInt(2, moder.getNewsId());
 
             stmt.execute();
+            stmt2.execute();
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         }

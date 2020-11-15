@@ -12,7 +12,6 @@ public class News implements IECN {
     private List<Moder> moderators;
     private String description;
     private String img_url;
-    private Date created_date;
 
     public News(Builder builder) {
         setId(builder.id);
@@ -21,7 +20,6 @@ public class News implements IECN {
         setModerators(builder.moderators);
         setImg_url(builder.img_url);
         setDescription(builder.description);
-        setCreated(builder.created_date);
     }
 
     public static class Builder {
@@ -31,19 +29,17 @@ public class News implements IECN {
         private List<Moder> moderators;
         private String description;
         private String img_url;
-        private Date created_date;
 
         public News build() {
             return new News(this);
         }
 
-        public Builder setNews(String name, String owner, List<Moder> moderators, String description, String img_url, Date created_date) {
+        public Builder setNews(String name, String owner, List<Moder> moderators, String description, String img_url) {
             this.name = name;
             this.owner = owner;
             this.moderators = moderators;
             this.description = description;
             this.img_url = img_url;
-            this.created_date = created_date;
             return this;
         }
 
@@ -114,13 +110,4 @@ public class News implements IECN {
         return img_url;
     }
 
-    @Override
-    public void setCreated(Date created_date) {
-        this.created_date = created_date;
-    }
-
-    @Override
-    public Date getCreated() {
-        return created_date;
-    }
 }

@@ -35,20 +35,14 @@ public class ServletEvent extends HttpServlet {
             LinkedList<Event> eventList  = (LinkedList<Event>) eventController.getAll();
             HttpSession clubSession = request.getSession();
             clubSession.setAttribute("events",eventList);
-            request.getRequestDispatcher("jsp/events.jsp").forward(request,response);
+            request.getRequestDispatcher("jsp/event/events.jsp").forward(request,response);
         }else if (action.equals("add")){
             String name = request.getParameter("name");
             String owner = request.getParameter("owner");
             String description = request.getParameter("description");
             String img_url = request.getParameter("img_url");
-            Date created_date = null;
-            try {
-                created_date = new SimpleDateFormat("dd/mm/yyyy").parse(request.getParameter("created_date"));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
             List<Moder> moders =null;
-            Event event = new Event.Builder().setEvent(name,owner,moders,description,img_url,created_date).build();
+            Event event = new Event.Builder().setEvent(name,owner,moders,description,img_url).build();
             eventController.add(event);
             request.getRequestDispatcher("index.jsp").forward(request,response);
 
@@ -58,14 +52,8 @@ public class ServletEvent extends HttpServlet {
             String owner = request.getParameter("owner");
             String description = request.getParameter("description");
             String img_url = request.getParameter("img_url");
-            Date created_date = null;
-            try {
-                created_date = new SimpleDateFormat("dd/mm/yyyy").parse(request.getParameter("created_date"));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
             List<Moder> moders =null;
-            Event event = new Event.Builder().setEvent(name,owner,moders,description,img_url,created_date).setEvent_id(event_id).build();
+            Event event = new Event.Builder().setEvent(name,owner,moders,description,img_url).setEvent_id(event_id).build();
             eventController.update(event);
             request.getRequestDispatcher("index.jsp").forward(request,response);
         }else if (action.equals("delete")){

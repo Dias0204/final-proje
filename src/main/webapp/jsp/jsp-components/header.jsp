@@ -28,6 +28,17 @@
         padding: 1rem;
         text-align: center;
     }</style>
+    <style>
+        .searchButton {
+        width: 40px;
+        height: 36px;
+        text-align: center;
+        color: #fff;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        font-size: 20px;
+    }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -40,7 +51,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
-                <c:if test="${!cookie.user.value.equals('admin@admin.admin')}">
+                <c:if test="${!cookie.user.value.equals('admin@admin.admin') && cookie.user.value.length()>0}">
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/clubServlet?&action=show">clubs</a>
                     </li>
@@ -55,6 +66,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/jsp/registration.jsp">registration</a>
                 </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/search?&action=showAll">users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/jsp/addModer.jsp">add moders</a>
+                    </li>
                 </c:if>
                 <c:if test="${cookie.user.value.equals('admin@admin.admin')}">
                 <li class="nav-item dropdown">
@@ -63,10 +80,9 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/clubServlet?&action=show">show Clubs</a>
-                        <a class="dropdown-item" href="#">add Club</a>
-                        <a class="dropdown-item" href="#">edit Club</a>
-                        <a class="dropdown-item" href="#">delete Club</a>
-                        <a class="dropdown-item" href="#">add Moders</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/club/addClub.jsp">add Club</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/club/editClub.jsp">edit Club</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/club/deleteClub.jsp">delete Club</a>
                     </div>
                 </li>
                     <li class="nav-item dropdown">
@@ -75,10 +91,9 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
                             <a class="dropdown-item" href="${pageContext.request.contextPath}/eventServlet?&action=show">show Events</a>
-                            <a class="dropdown-item" href="#">add Event</a>
-                            <a class="dropdown-item" href="#">edit Event</a>
-                            <a class="dropdown-item" href="#">delete Event</a>
-                            <a class="dropdown-item" href="#">add Moders</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/event/addEvent.jsp">add Event</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/event/editEvent.jsp">edit Event</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/event/deleteEvent.jsp">delete Event</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -90,7 +105,6 @@
                             <a class="dropdown-item" href="#">add News</a>
                             <a class="dropdown-item" href="#">edit News</a>
                             <a class="dropdown-item" href="#">delete News</a>
-                            <a class="dropdown-item" href="#">add Moders</a>
                         </div>
                     </li>
                 </c:if>

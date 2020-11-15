@@ -36,20 +36,14 @@ public class ServletNews extends HttpServlet {
             LinkedList<News> newsList  = (LinkedList<News>) newsController.getAll();
             HttpSession clubSession = request.getSession();
             clubSession.setAttribute("news",newsList);
-            request.getRequestDispatcher("jsp/news.jsp").forward(request,response);
+            request.getRequestDispatcher("jsp/news/news.jsp").forward(request,response);
         }else if (action.equals("add")){
             String name = request.getParameter("name");
             String owner = request.getParameter("owner");
             String description = request.getParameter("description");
             String img_url = request.getParameter("img_url");
-            Date created_date = null;
-            try {
-                created_date = new SimpleDateFormat("dd/mm/yyyy").parse(request.getParameter("created_date"));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
             List<Moder> moders =null;
-            News news = new News.Builder().setNews(name,owner,moders,description,img_url,created_date).build();
+            News news = new News.Builder().setNews(name,owner,moders,description,img_url).build();
             newsController.add(news);
             request.getRequestDispatcher("index.jsp").forward(request,response);
         }else if (action.equals("edit")){
@@ -58,14 +52,8 @@ public class ServletNews extends HttpServlet {
             String owner = request.getParameter("owner");
             String description = request.getParameter("description");
             String img_url = request.getParameter("img_url");
-            Date created_date = null;
-            try {
-                created_date = new SimpleDateFormat("dd/mm/yyyy").parse(request.getParameter("created_date"));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
             List<Moder> moders =null;
-            News news = new News.Builder().setNews(name,owner,moders,description,img_url,created_date).setNews_id(news_id).build();
+            News news = new News.Builder().setNews(name,owner,moders,description,img_url).setNews_id(news_id).build();
             newsController.update(news);
             request.getRequestDispatcher("index.jsp").forward(request,response);
         }else if (action.equals("delete")){

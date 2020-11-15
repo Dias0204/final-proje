@@ -12,7 +12,6 @@ public class Event implements IECN {
     private List<Moder> moderators;
     private String description;
     private String img_url;
-    private Date created_date;
 
     public Event(Builder builder) {
         setId(builder.id);
@@ -21,7 +20,6 @@ public class Event implements IECN {
         setModerators(builder.moderators);
         setImg_url(builder.img_url);
         setDescription(builder.description);
-        setCreated(builder.created_date);
     }
 
     public static class Builder {
@@ -37,13 +35,12 @@ public class Event implements IECN {
             return new Event(this);
         }
 
-        public Builder setEvent(String name, String owner, List<Moder> moderators, String description, String img_url, Date created_date) {
+        public Builder setEvent(String name, String owner, List<Moder> moderators, String description, String img_url) {
             this.name = name;
             this.owner = owner;
             this.moderators = moderators;
             this.description = description;
             this.img_url = img_url;
-            this.created_date = created_date;
             return this;
         }
 
@@ -113,13 +110,4 @@ public class Event implements IECN {
         return img_url;
     }
 
-    @Override
-    public void setCreated(Date created_date) {
-        this.created_date = created_date;
-    }
-
-    @Override
-    public Date getCreated() {
-        return created_date;
-    }
 }

@@ -21,7 +21,6 @@ public class Club implements IECN {
         setModerators(builder.moderators);
         setImg_url(builder.img_url);
         setDescription(builder.description);
-        setCreated(builder.created_date);
     }
 
     public static class Builder {
@@ -37,18 +36,17 @@ public class Club implements IECN {
             return new Club(this);
         }
 
-        public Builder setClub(String name, String owner, List<Moder> moderators, String description, String img_url, Date created_date) {
+        public Builder setClub(String name, String owner, List<Moder> moderators, String description, String img_url) {
             this.name = name;
             this.owner = owner;
             this.moderators = moderators;
             this.description = description;
             this.img_url = img_url;
-            this.created_date = created_date;
             return this;
         }
 
-        public Builder setClub_id(int book_id) {
-            this.id = id;
+        public Builder setClub_id(int club_id) {
+            this.id = club_id;
             return this;
         }
     }
@@ -113,13 +111,4 @@ public class Club implements IECN {
         return img_url;
     }
 
-    @Override
-    public void setCreated(Date created_date) {
-        this.created_date = created_date;
-    }
-
-    @Override
-    public Date getCreated() {
-        return created_date;
-    }
 }

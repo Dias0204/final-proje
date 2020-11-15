@@ -16,8 +16,8 @@ public class EventController implements IController<Event> {
 
     @Override
     public void add(Event event) {
-        String sql = "INSERT INTO clubs(name, owner, description, img_url, created_date)" +
-                "VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO clubs(name, owner, description, img_url)" +
+                "VALUES(?,?,?,?)";
 
         try {
             PreparedStatement stmt = db.getConnection().prepareStatement(sql);
@@ -26,7 +26,6 @@ public class EventController implements IController<Event> {
             stmt.setString(2, event.getOwner());
             stmt.setString(3, event.getDescription());
             stmt.setString(4, event.getImg_url());
-            stmt.setDate(5, (Date) event.getCreated());
 
             stmt.execute();
         } catch (SQLException throwable) {
@@ -36,7 +35,7 @@ public class EventController implements IController<Event> {
 
     @Override
     public void update(Event event) {
-        String sql = "update clubs set name = ?, owner = ?, description = ?, img_url = ?, created_date = ?" +
+        String sql = "update clubs set name = ?, owner = ?, description = ?, img_url = ?" +
                 " where club_id = ?";
         PreparedStatement stmt = null;
         try {
@@ -47,8 +46,7 @@ public class EventController implements IController<Event> {
             stmt.setString(2, event.getOwner());
             stmt.setString(3, event.getDescription());
             stmt.setString(4, event.getImg_url());
-            stmt.setDate(5, (Date) event.getCreated());
-            stmt.setInt(6, event.getId());
+            stmt.setInt(5, event.getId());
 
             stmt.execute();
 
@@ -80,7 +78,7 @@ public class EventController implements IController<Event> {
         List<Moder> moderators = new LinkedList<>();
         try {
             Statement statement = db.getConnection().createStatement();
-            ResultSet rsModers = statement.executeQuery("SELECT user_id,fname,lname,email" +
+            ResultSet rsModers = statement.executeQuery("SELECT users.user_id,fname,lname,email" +
                     ",password,role,year,major,group_name,em.event_id from users" +
                     " join event_moders em on users.user_id = em.user_id" +
                     " group by em.event_id");
@@ -107,9 +105,7 @@ public class EventController implements IController<Event> {
                         rs.getString("owner"),
                         moderators,
                         rs.getString("description"),
-                        rs.getString("img_url"),
-                        rs.getDate("created_date")
-                ).setEvent_id(rs.getInt("event_id")).build();
+                        rs.getString("img_url")).setEvent_id(rs.getInt("event_id")).build();
                 eventList.add(e);
             }
             rs.close();
@@ -158,8 +154,7 @@ public class EventController implements IController<Event> {
                     rsEvent.getString("owner"),
                     moderators,
                     rsEvent.getString("description"),
-                    rsEvent.getString("img_url"),
-                    rsEvent.getDate("created_date")
+                    rsEvent.getString("img_url")
             ).setEvent_id(rsModers.getInt("club_id")).build();
             return e;
         } catch (SQLException sqlException) {
