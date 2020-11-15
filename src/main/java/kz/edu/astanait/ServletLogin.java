@@ -34,6 +34,8 @@ public class ServletLogin extends HttpServlet {
                 Cookie idCookie = new Cookie("user_id", String.valueOf(user.getId()));
                 cookie.setMaxAge(60 * 60);
                 response.addCookie(idCookie);
+                HttpSession rolesession = request.getSession();
+                rolesession.setAttribute("role",user.getRole());
 //                session.setAttribute("user",user);
 //                session.setMaxInactiveInterval(60*60);
 

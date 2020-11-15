@@ -20,7 +20,7 @@
     <style><%@include file="/css/navCss.css"%></style>
     <style>
         .Myfooter {
-        position: absolute;
+        position: fixed;
         right: 0;
         color: white;
         bottom: 0;
@@ -51,29 +51,40 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
-                <c:if test="${!cookie.user.value.equals('admin@admin.admin') && cookie.user.value.length()>0}">
+                <c:if test="${!cookie.user.value.equals('admin@admin.admin') && cookie.user.value.length()>0 && !sessionScope.role.equals('club moderator') }">
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/clubServlet?&action=show">clubs</a>
                     </li>
+                </c:if>
+
+                <c:if test="${!cookie.user.value.equals('admin@admin.admin') && cookie.user.value.length()>0 && !sessionScope.role.equals('event moderator') }">
+
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/eventServlet?&action=show">events</a>
                     </li>
+                    </c:if>
+                    <c:if test="${!cookie.user.value.equals('admin@admin.admin') && cookie.user.value.length()>0 && !sessionScope.role.equals('news moderator') }">
+
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/newsServlet?&action=show">news</a>
                     </li>
-                </c:if>
+                    </c:if>
                 <c:if test="${cookie.user.value.equals('admin@admin.admin')}">
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/jsp/registration.jsp">registration</a>
                 </li>
-                    <li class="nav-item">
+                </c:if>
+                <c:if test="${cookie.user.value.equals('admin@admin.admin')}">
+                <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/search?&action=showAll">users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/jsp/addModer.jsp">add moders</a>
                     </li>
                 </c:if>
                 <c:if test="${cookie.user.value.equals('admin@admin.admin')}">
+                <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/jsp/addModer.jsp">add moders</a>
+                    </li>
+                </c:if>
+                <c:if test="${cookie.user.value.equals('admin@admin.admin') || sessionScope.role.equals('club moderator')}">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Clubs
@@ -85,7 +96,9 @@
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/club/deleteClub.jsp">delete Club</a>
                     </div>
                 </li>
-                    <li class="nav-item dropdown">
+                </c:if>
+                <c:if test="${cookie.user.value.equals('admin@admin.admin') || sessionScope.role.equals('event moderator')}">
+                <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Events
                         </a>
@@ -96,7 +109,9 @@
                             <a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/event/deleteEvent.jsp">delete Event</a>
                         </div>
                     </li>
-                    <li class="nav-item dropdown">
+                </c:if>
+                <c:if test="${cookie.user.value.equals('admin@admin.admin') || sessionScope.role.equals('news moderator')}">
+                <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             News
                         </a>

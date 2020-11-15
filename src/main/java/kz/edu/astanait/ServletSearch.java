@@ -29,6 +29,7 @@ public class ServletSearch extends HttpServlet {
         if(action.equals("byGroup")){
             List<User> groupList = restClient.getByGroup(request.getParameter("param"));
             json = new Gson().toJson(groupList);
+            System.out.println("a da?");
         }else if(action.equals("byYear")){
             List<User> yearList = restClient.getByYear(request.getParameter("param"));
             json = new Gson().toJson(yearList);
@@ -45,6 +46,7 @@ public class ServletSearch extends HttpServlet {
         }
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+        System.out.println(json);
         if (json != null) {
             response.getWriter().write(json);
         }

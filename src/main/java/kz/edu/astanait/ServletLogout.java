@@ -18,9 +18,9 @@ public class ServletLogout extends HttpServlet {
             cookies[a].setMaxAge(0);
             response.addCookie(cookies[a]);
         }
-        sessions.removeAttribute("lib");
+        //sessions.removeAttribute("lib");
         //remove the sessions
-//        sessions.removeAttribute("user");
+        sessions.removeAttribute("role");
 //        sessions.removeAttribute("message");
         response.sendRedirect(getServletContext().getContextPath());
     }

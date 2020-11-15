@@ -3,7 +3,6 @@ package kz.edu.astanait.REST;
 import kz.edu.astanait.controllers.UserController;
 import kz.edu.astanait.models.User;
 
-import javax.ws.rs.Path;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

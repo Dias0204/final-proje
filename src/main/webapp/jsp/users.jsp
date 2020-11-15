@@ -36,7 +36,7 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <th id="user_id">1</th>
+                    <th id="user_id"></th>
                     <td id="fname"></td>
                     <td id="lname"></td>
                     <td id="email"></td>
@@ -84,7 +84,7 @@
     $(document).ready(function (){
         $("#sbtn").on("click", function (){
             event.preventDefault();
-            var a = $("input[name='searchby']:checked").val();
+            var a = $("input:radio[name='searchby']:checked").val();
             var b =$( "#search" ).val();
             var url = "${pageContext.request.contextPath}/search?&action="+a+"&param="+b;
 
@@ -99,12 +99,12 @@
                         $('#errrr').hide();
                         $("#user_id").text(data[0].id);
                         $("#fname").text(data[0].fname);
-                        $("#lname").attr('src', data[0].lname);
-                        $("#email").attr('value', data[0].email);
-                        $("#password").attr('value', data[0].password);
-                        $("#group").attr('value',data[0].group_name);
-                        $("#major").attr('value',data[0].major);
-                        $("#year").attr('value',data[0].year);
+                        $("#lname").text( data[0].lname);
+                        $("#email").text(data[0].email);
+                        $("#password").text( data[0].password);
+                        $("#group").text(data[0].group_name);
+                        $("#major").text(data[0].major);
+                        $("#year").text(data[0].year);
                         $("#errormsg").show();
                     }
                     else{
@@ -125,6 +125,7 @@
             });
 
         });
+    });
 
 </script>
 
