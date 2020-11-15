@@ -87,6 +87,7 @@
                 success: function (data) {
                     if(data[0].length != 0)
                     {
+                        $("#result").html('');
                         $.each(data,function (i,val){
                             var content = '<tr>';
                             $.each(val,function (k,value){
