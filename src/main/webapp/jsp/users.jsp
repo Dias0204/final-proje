@@ -91,7 +91,7 @@
                         $.each(data,function (i,val){
                             var content = '<tr>';
                             $.each(val,function (k,value){
-                                if (k!= "club_id" && k!= "event_id" && k!= "news_id"){
+                                if (k!= "club_id" && k!= "event_id" && k!= "news_id" && k!= "role"){
                                 content+='<td>'+value+'</td>';
                                 }
                             });
