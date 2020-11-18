@@ -117,9 +117,9 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown4">
                             <a class="dropdown-item" href="${pageContext.request.contextPath}/newsServlet?&action=show">show News</a>
-                            <a class="dropdown-item" href="#">add News</a>
-                            <a class="dropdown-item" href="#">edit News</a>
-                            <a class="dropdown-item" href="#">delete News</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/news/addNews.jsp">add News</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/news/editNews.jsp">edit News</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/news/deleteNews.jsp">delete News</a>
                         </div>
                     </li>
                 </c:if>

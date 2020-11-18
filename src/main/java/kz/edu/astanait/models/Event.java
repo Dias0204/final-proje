@@ -29,7 +29,6 @@ public class Event implements IECN {
         private List<Moder> moderators;
         private String description;
         private String img_url;
-        private Date created_date;
 
         public Event build() {
             return new Event(this);
@@ -44,7 +43,7 @@ public class Event implements IECN {
             return this;
         }
 
-        public Builder setEvent_id(int book_id) {
+        public Builder setEvent_id(int id) {
             this.id = id;
             return this;
         }

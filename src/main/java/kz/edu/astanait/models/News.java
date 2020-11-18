@@ -43,7 +43,7 @@ public class News implements IECN {
             return this;
         }
 
-        public Builder setNews_id(int book_id) {
+        public Builder setNews_id(int id) {
             this.id = id;
             return this;
         }

@@ -30,7 +30,6 @@ public class Club implements IECN {
         private List<Moder> moderators;
         private String description;
         private String img_url;
-        private Date created_date;
 
         public Club build() {
             return new Club(this);

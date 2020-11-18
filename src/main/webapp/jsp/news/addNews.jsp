@@ -5,7 +5,7 @@
             <input class="input-area" type="text" placeholder="name" name="name">
         </div>
         <div class="input-section">
-            <input class="input-area" type="password" placeholder="owner" name="owner">
+            <input class="input-area" type="text" placeholder="owner" name="owner">
         </div>
         <div class="input-section">
             <input class="input-area" type="text" placeholder="description" name="description">

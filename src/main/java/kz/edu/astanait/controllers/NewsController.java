@@ -15,7 +15,7 @@ public class NewsController implements IController<News> {
 
     @Override
     public void add(News news) {
-        String sql = "INSERT INTO clubs(name, owner, description, img_url)" +
+        String sql = "INSERT INTO news(name, owner, description, img_url)" +
                 "VALUES(?,?,?,?)";
 
         try {
@@ -34,8 +34,8 @@ public class NewsController implements IController<News> {
 
     @Override
     public void update(News news) {
-        String sql = "update clubs set name = ?, owner = ?, description = ?, img_url = ? " +
-                " where club_id = ?";
+        String sql = "update news set name = ?, owner = ?, description = ?, img_url = ? " +
+                " where news_id = ?";
         PreparedStatement stmt = null;
         try {
 
@@ -56,7 +56,7 @@ public class NewsController implements IController<News> {
 
     @Override
     public void delete(News news) {
-        String sql = "delete from clubs where club_id = ?";
+        String sql = "delete from news where news_id = ?";
         PreparedStatement stmt = null;
         try {
 
@@ -93,7 +93,7 @@ public class NewsController implements IController<News> {
                         rsModers.getString("major"),
                         rsModers.getString("group_name"))
                         .withId(rsModers.getInt("user_id"))
-                        .eventMod(rsModers.getInt("event_id")).build();
+                        .eventMod(rsModers.getInt("news_id")).build();
                 moderators.add(moder);
             }
             ResultSet rs = statement.executeQuery("SELECT * FROM news");
@@ -105,7 +105,7 @@ public class NewsController implements IController<News> {
                         moderators,
                         rs.getString("description"),
                         rs.getString("img_url")
-                ).setNews_id(rs.getInt("event_id")).build();
+                ).setNews_id(rs.getInt("news_id")).build();
                 newsList.add(n);
             }
             rs.close();
@@ -155,7 +155,7 @@ public class NewsController implements IController<News> {
                     moderators,
                     rsNews.getString("description"),
                     rsNews.getString("img_url")
-            ).setNews_id(rsModers.getInt("club_id")).build();
+            ).setNews_id(rsModers.getInt("news_id")).build();
             return n;
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();

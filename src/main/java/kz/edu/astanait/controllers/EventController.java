@@ -16,7 +16,7 @@ public class EventController implements IController<Event> {
 
     @Override
     public void add(Event event) {
-        String sql = "INSERT INTO clubs(name, owner, description, img_url)" +
+        String sql = "INSERT INTO events(name, owner, description, img_url)" +
                 "VALUES(?,?,?,?)";
 
         try {
@@ -35,8 +35,8 @@ public class EventController implements IController<Event> {
 
     @Override
     public void update(Event event) {
-        String sql = "update clubs set name = ?, owner = ?, description = ?, img_url = ?" +
-                " where club_id = ?";
+        String sql = "update events set name = ?, owner = ?, description = ?, img_url = ?" +
+                " where event_id = ?";
         PreparedStatement stmt = null;
         try {
 
@@ -57,7 +57,7 @@ public class EventController implements IController<Event> {
 
     @Override
     public void delete(Event event) {
-        String sql = "delete from clubs where club_id = ?";
+        String sql = "delete from events where event_id = ?";
         PreparedStatement stmt = null;
         try {
 
@@ -124,7 +124,7 @@ public class EventController implements IController<Event> {
 
         List<Moder> moderators = new LinkedList<>();
         try {
-            PreparedStatement pstmtClubs = db.getConnection().prepareStatement("SELECT * FROM clubs where club_id = ?");
+            PreparedStatement pstmtClubs = db.getConnection().prepareStatement("SELECT * FROM events where event_id = ?");
             pstmtClubs.setInt(1, id);
             PreparedStatement pstmtModers = db.getConnection().prepareStatement("SELECT user_id,fname,lname,email" +
                     ",password,role,year,major,group_name,em.event_id from users" +

@@ -45,7 +45,6 @@ public class ServletEvent extends HttpServlet {
             Event event = new Event.Builder().setEvent(name,owner,moders,description,img_url).build();
             eventController.add(event);
             request.getRequestDispatcher("index.jsp").forward(request,response);
-
         }else if (action.equals("edit")){
             int event_id = Integer.parseInt(request.getParameter("event_id"));
             String name = request.getParameter("name");
@@ -54,6 +53,7 @@ public class ServletEvent extends HttpServlet {
             String img_url = request.getParameter("img_url");
             List<Moder> moders =null;
             Event event = new Event.Builder().setEvent(name,owner,moders,description,img_url).setEvent_id(event_id).build();
+            System.out.println(event);
             eventController.update(event);
             request.getRequestDispatcher("index.jsp").forward(request,response);
         }else if (action.equals("delete")){
