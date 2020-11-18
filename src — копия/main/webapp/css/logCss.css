@@ -1,0 +1,72 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url(https://i1.photo.2gis.com/images/branch/68/9570149252895148_088f.jpg);
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: initial;
+    background-attachment: fixed;
+    height: 100vh;
+    font-family: "Lato", "Aril", sans-serif;
+}
+
+h1 {
+    color: #ddd;
+    text-transform: uppercase;
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+    margin: 0 0 25px 0;
+    font-size: 16px;
+}
+
+input {
+    display: inline-block;
+    background: none;
+    border: none;
+    outline: none;
+    color: #ddd;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0;
+}
+
+.login-box {
+    position: absolute;
+    left: 50%;
+    margin-top: 5%;
+    transform: translate(-50%);
+}
+
+.input-area {
+    margin: 0px 0px 12px;
+    padding: 8px;
+}
+
+.btn {
+    width: 100%;
+    padding: 5px;
+    color: #ffffff;
+    background-color: #dcdcdc;
+    border: 10px solid #ffffff;
+    font-weight: 300;
+    text-transform: uppercase;
+    box-shadow: 1px 1px 5px #000;
+    transition: ease-in 0.2s;
+    margin-top: 2px;
+    cursor: pointer;
+}
+.btn:hover {
+    background-color: #ffffff;
+    color: #333333;
+}
+
+i {
+    color: #ddd;
+    margin: 0 5px 0 0;
+}
+
+.hidden {
+    display: none;
+}
